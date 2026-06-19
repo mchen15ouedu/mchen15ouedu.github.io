@@ -137,20 +137,26 @@ a { color: inherit; }
   cursor: pointer;
 }
 
-/* ---------- Banner ---------- */
+/* ---------- Banner (full-width framed band) ---------- */
 .banner {
-  max-width: var(--max);
-  margin: 0 auto;
-  padding: 24px 24px 0;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 18px 16px;
+  background: linear-gradient(180deg, #211c17, #14100c);
+  border-bottom: 1px solid var(--line-strong);
 }
 
 .banner img {
   display: block;
-  width: 100%;
+  max-width: min(100%, 1180px);
+  max-height: 66vh;
+  width: auto;
   height: auto;
-  border-radius: var(--radius);
-  border: 1px solid var(--line);
-  box-shadow: var(--shadow-lg);
+  margin: 0 auto;
+  border-radius: 14px;
+  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.45);
 }
 
 /* ---------- Layout ---------- */
