@@ -60,6 +60,8 @@ select, input[type=text] { width: 100%; padding: 8px 10px; background: var(--pan
 #searchResults li .c { color: var(--muted); font-size: 11px; }
 #meta-foot { font-size: 11px; color: var(--muted); border-top: 1px solid var(--border);
   padding-top: 10px; margin-top: 6px; }
+.ou-claim { margin-top: 14px; padding-top: 10px; border-top: 1px solid var(--border); }
+.ou-claim p { font-size: 9.5px; line-height: 1.45; color: #6f8090; margin: 0 0 7px; }
 
 /* ---- map ---- */
 #map { height: 100%; background: #0b0f14; position: relative; z-index: 0; }
