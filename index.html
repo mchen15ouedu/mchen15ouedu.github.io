@@ -10,6 +10,8 @@
   <meta property="og:description" content="Hydrologic modeling, climate extremes, flood prediction, remote sensing, and AI-assisted environmental analysis." />
   <meta property="og:type" content="website" />
   <meta property="og:url" content="https://mcspace.work" />
+  <meta property="og:image" content="https://mcspace.work/images/headshot-hero.jpg" />
+  <meta name="twitter:card" content="summary_large_image" />
   <link rel="icon" href="favicon.svg" type="image/svg+xml" />
   <link rel="stylesheet" href="styles.css" />
 </head>
@@ -22,6 +24,7 @@
     <button class="nav-toggle" aria-label="Toggle navigation" aria-expanded="false">☰</button>
     <nav class="site-nav" aria-label="Main navigation">
       <a href="#about">About</a>
+      <a href="#gallery">Gallery</a>
       <a href="#research">Research</a>
       <a href="#projects">Projects</a>
       <a href="#publications">Publications</a>
@@ -34,7 +37,7 @@
     <section class="hero section">
       <div class="hero-content">
         <p class="eyebrow">Hydrology • Climate Extremes • AI for Water Systems</p>
-        <h1>Mengye Chen, Ph.D.</h1>
+        <h1><span class="name-gradient">Mengye Chen</span>, Ph.D.</h1>
         <p class="hero-subtitle">
           Water resources scientist working at the intersection of hydrologic modeling,
           flood prediction, remote sensing, climate risk, and AI-assisted environmental analysis.
@@ -43,33 +46,67 @@
           <a class="button primary" href="#projects">View Projects</a>
           <a class="button secondary" href="#contact">Contact</a>
         </div>
+        <div class="hero-tags" aria-label="Focus areas">
+          <span>Hydrologic Modeling</span>
+          <span>Flood Prediction</span>
+          <span>Climate Risk</span>
+          <span>Remote Sensing</span>
+          <span>AI for Water</span>
+        </div>
       </div>
-      <aside class="hero-card" aria-label="Professional summary">
-        <p class="card-label">Current Focus</p>
-        <h2>Decision-ready water intelligence</h2>
-        <p>
-          Building scalable modeling and data workflows for flood hazards, climate resilience,
-          water resources planning, and coupled human–natural systems.
-        </p>
-      </aside>
+      <div class="hero-portrait">
+        <img src="images/headshot-hero.jpg" width="933" height="1400"
+             alt="Portrait of Mengye Chen" loading="eager" decoding="async" fetchpriority="high" />
+      </div>
     </section>
 
     <section id="about" class="section two-column">
+      <div class="about-portrait">
+        <img src="images/headshot-about.jpg" width="933" height="1400"
+             alt="Mengye Chen, Ph.D." loading="lazy" decoding="async" />
+      </div>
       <div>
         <p class="eyebrow">About</p>
         <h2>Researcher in hydrology, climate, and data-driven environmental systems.</h2>
+        <div class="body-copy">
+          <p>
+            I am a researcher at the Hydrometeorology and Remote Sensing Laboratory
+            at the University of Oklahoma, with a background in environmental engineering,
+            water resources, climate impacts, and applied economics.
+          </p>
+          <p>
+            My work combines physics-based hydrologic and hydraulic models, remote sensing,
+            large-scale environmental datasets, and AI-assisted workflows to improve flood
+            prediction, climate-risk assessment, and water-hazard preparedness.
+          </p>
+        </div>
       </div>
-      <div class="body-copy">
-        <p>
-          I am a researcher at the Hydrometeorology and Remote Sensing Laboratory
-          at the University of Oklahoma, with a background in environmental engineering,
-          water resources, climate impacts, and applied economics.
-        </p>
-        <p>
-          My work combines physics-based hydrologic and hydraulic models, remote sensing,
-          large-scale environmental datasets, and AI-assisted workflows to improve flood
-          prediction, climate-risk assessment, and water-hazard preparedness.
-        </p>
+    </section>
+
+    <section id="gallery" class="section">
+      <div class="section-heading">
+        <p class="eyebrow">Milestones</p>
+        <h2>A few moments along the way</h2>
+      </div>
+      <div class="gallery-grid">
+        <figure class="gallery-figure">
+          <img src="images/phd-campus.jpg" width="1000" height="1400"
+               alt="Mengye Chen in doctoral regalia on the University of Oklahoma campus"
+               loading="lazy" decoding="async" />
+          <figcaption>Ph.D. conferred — University of Oklahoma</figcaption>
+        </figure>
+        <figure class="gallery-figure">
+          <img src="images/phd-studio.jpg" width="999" height="1400"
+               alt="Mengye Chen holding his University of Oklahoma doctoral diploma"
+               loading="lazy" decoding="async" />
+          <figcaption>Doctor of Philosophy, Environmental Engineering</figcaption>
+        </figure>
+        <figure class="gallery-figure">
+          <img src="images/phd-ou.jpg" width="999" height="1400"
+               alt="Mengye Chen in doctoral cap and gown"
+               loading="lazy" decoding="async" />
+          <figcaption>Hydrometeorology &amp; Remote Sensing Laboratory</figcaption>
+        </figure>
       </div>
     </section>
 
