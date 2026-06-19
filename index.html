@@ -84,29 +84,28 @@
     </section>
 
     <section id="gallery" class="section">
-      <div class="section-heading">
-        <p class="eyebrow">Milestones</p>
-        <h2>A few moments along the way</h2>
-      </div>
-      <div class="gallery-grid">
-        <figure class="gallery-figure">
-          <img src="images/phd-campus.jpg" width="1000" height="1400"
-               alt="Mengye Chen in doctoral regalia on the University of Oklahoma campus"
-               loading="lazy" decoding="async" />
-          <figcaption>Ph.D. conferred — University of Oklahoma</figcaption>
-        </figure>
-        <figure class="gallery-figure">
-          <img src="images/phd-studio.jpg" width="999" height="1400"
-               alt="Mengye Chen holding his University of Oklahoma doctoral diploma"
-               loading="lazy" decoding="async" />
-          <figcaption>Doctor of Philosophy, Environmental Engineering</figcaption>
-        </figure>
-        <figure class="gallery-figure">
-          <img src="images/phd-ou.jpg" width="999" height="1400"
-               alt="Mengye Chen in doctoral cap and gown"
-               loading="lazy" decoding="async" />
-          <figcaption>Hydrometeorology &amp; Remote Sensing Laboratory</figcaption>
-        </figure>
+      <div class="gallery-compact">
+        <p class="gallery-label">
+          <strong>Milestones</strong>
+          Ph.D., Environmental Engineering — University of Oklahoma
+        </p>
+        <div class="gallery-thumbs">
+          <figure>
+            <img src="images/phd-campus.jpg" width="1000" height="1400"
+                 alt="Mengye Chen in doctoral regalia on the University of Oklahoma campus"
+                 loading="lazy" decoding="async" />
+          </figure>
+          <figure>
+            <img src="images/phd-studio.jpg" width="999" height="1400"
+                 alt="Mengye Chen holding his University of Oklahoma doctoral diploma"
+                 loading="lazy" decoding="async" />
+          </figure>
+          <figure>
+            <img src="images/phd-ou.jpg" width="999" height="1400"
+                 alt="Mengye Chen in doctoral cap and gown"
+                 loading="lazy" decoding="async" />
+          </figure>
+        </div>
       </div>
     </section>
 
@@ -149,54 +148,90 @@
         <h2>Modeling, climate, and AI-enabled water systems</h2>
       </div>
       <div class="project-list">
-        <article class="project">
-          <span class="project-kicker">Flood Prediction</span>
-          <h3>CREST-iMAP hydrologic–hydraulic flood modeling</h3>
-          <p>
-            Coupled hydrologic and hydraulic modeling for flood prediction and inundation mapping,
-            including applications to extreme precipitation and hurricane flood events.
-          </p>
-        </article>
-        <article class="project">
-          <span class="project-kicker">Continental-scale Modeling</span>
-          <h3>CRESTv3.0 CONUS-wide calibration and validation</h3>
-          <p>
-            Large-scale hydrologic model calibration and evaluation across the contiguous United States
-            to support water-resource and flood-risk applications.
-          </p>
-        </article>
-        <article class="project">
-          <span class="project-kicker">NSF INFEWS</span>
-          <h3>C-FEWS climate, food, energy, and water systems</h3>
-          <p>
-            Interdisciplinary modeling of climate extremes and their impacts across water resources,
-            agriculture, renewable energy, and economic systems.
-          </p>
-        </article>
-        <article class="project">
-          <span class="project-kicker">Climate Downscaling</span>
-          <h3>Peru Andes flood and water-resource risk</h3>
-          <p>
-            WRF dynamic downscaling, CMIP6 climate information, and hydrologic modeling to assess
-            mountain-region flood and water-resource vulnerability.
-          </p>
-        </article>
-        <article class="project">
-          <span class="project-kicker">Real-time Systems</span>
-          <h3>FLASH flood monitoring and prediction workflows</h3>
-          <p>
-            Hydrometeorological data preparation, model configuration, QA/QC, and workflow improvement
-            for regional to CONUS-scale real-time flood monitoring.
-          </p>
-        </article>
-        <article class="project">
-          <span class="project-kicker">AI Workflow</span>
-          <h3>AI-assisted hydrologic modeling</h3>
-          <p>
-            Development of AI-enabled workflows and model-support tools for environmental data analysis,
-            hydrologic simulation, and scientific decision support.
-          </p>
-        </article>
+        <a class="project" href="https://doi.org/10.1175/JHM-D-20-0218.1" target="_blank" rel="noopener noreferrer">
+          <div class="project-figure">
+            <img src="images/figures/fig-harvey-extent.jpg" alt="Flood extent comparison for Hurricane Harvey" loading="lazy" decoding="async" />
+          </div>
+          <div class="project-body">
+            <span class="project-kicker">Flood Inundation</span>
+            <h3>CREST-iMAP flood mapping for Hurricane Harvey</h3>
+            <p>
+              A comprehensive flood inundation mapping of Hurricane Harvey using an integrated
+              hydrologic and hydraulic model.
+            </p>
+            <span class="project-link">Read paper · J. Hydrometeorology, 2021</span>
+          </div>
+        </a>
+        <a class="project" href="https://doi.org/10.1016/j.jhydrol.2022.128168" target="_blank" rel="noopener noreferrer">
+          <div class="project-figure">
+            <img src="images/figures/fig-qpf-flood.jpg" alt="Quantitative precipitation forecasts and simulated flood hydrographs" loading="lazy" decoding="async" />
+          </div>
+          <div class="project-body">
+            <span class="project-kicker">Flood Prediction</span>
+            <h3>Flood predictability with QPF and U-Net nowcasts</h3>
+            <p>
+              Evaluating flood predictability of CREST-iMAP driven by quantitative precipitation
+              forecasts and deep-learning (U-Net) precipitation nowcasts.
+            </p>
+            <span class="project-link">Read paper · J. Hydrology, 2022</span>
+          </div>
+        </a>
+        <a class="project" href="https://doi.org/10.1016/j.jhydrol.2023.130333" target="_blank" rel="noopener noreferrer">
+          <div class="project-figure">
+            <img src="images/figures/fig-conus-koppen.jpg" alt="CONUS climate zones and USGS gauge network" loading="lazy" decoding="async" />
+          </div>
+          <div class="project-body">
+            <span class="project-kicker">Continental-scale Modeling</span>
+            <h3>CRESTv3.0 CONUS-wide calibration and validation</h3>
+            <p>
+              Large-scale hydrologic model calibration and evaluation across the contiguous United
+              States to support water-resource and flood-risk applications.
+            </p>
+            <span class="project-link">Read paper · J. Hydrology, 2023</span>
+          </div>
+        </a>
+        <a class="project" href="https://doi.org/10.3389/fenvs.2023.1069613" target="_blank" rel="noopener noreferrer">
+          <div class="project-figure">
+            <img src="images/figures/fig-hydrograph.jpg" alt="Simulated streamflow hydrograph" loading="lazy" decoding="async" />
+          </div>
+          <div class="project-body">
+            <span class="project-kicker">NSF INFEWS · C-FEWS</span>
+            <h3>Climate, food, energy, and water systems</h3>
+            <p>
+              Interdisciplinary modeling of climate extremes and their impacts across water resources,
+              agriculture, renewable energy, and economic systems.
+            </p>
+            <span class="project-link">Read paper · Frontiers in Env. Science, 2023</span>
+          </div>
+        </a>
+        <a class="project" href="https://doi.org/10.12691/ajwr-13-2-3" target="_blank" rel="noopener noreferrer">
+          <div class="project-figure">
+            <img src="images/figures/fig-arequipa.jpg" alt="Hillshade map of the Arequipa region, Peruvian Andes" loading="lazy" decoding="async" />
+          </div>
+          <div class="project-body">
+            <span class="project-kicker">Climate Downscaling</span>
+            <h3>Arequipa, Peru: water in the short future</h3>
+            <p>
+              Hyperresolution regional climate modeling and CREST-VEC simulations under SSP5-8.5 to
+              assess flood, drought, and water-resource risk in the arid Peruvian Andes.
+            </p>
+            <span class="project-link">Read paper · Am. J. Water Resources, 2025</span>
+          </div>
+        </a>
+        <a class="project" href="https://arxiv.org/abs/2508.02936" target="_blank" rel="noopener noreferrer">
+          <div class="project-figure">
+            <img src="images/figures/fig-aquah-agent.jpg" alt="AQUAH AI agent workflow for hydrologic modeling" loading="lazy" decoding="async" />
+          </div>
+          <div class="project-body">
+            <span class="project-kicker">AI for Hydrology</span>
+            <h3>AQUAH — an AI agent for hydrologic modeling</h3>
+            <p>
+              A language-based, vision-enabled agent that takes a natural-language prompt and
+              autonomously retrieves data, configures and runs a hydrologic model, and writes a report.
+            </p>
+            <span class="project-link">Read paper · arXiv, 2025</span>
+          </div>
+        </a>
       </div>
     </section>
 
@@ -209,25 +244,32 @@
         <li>
           <strong>Chen et al.</strong> CONUS-wide calibration and validation for CRESTv3.0.
           <em>Journal of Hydrology</em>, 2023.
+          <a href="https://doi.org/10.1016/j.jhydrol.2023.130333" target="_blank" rel="noopener noreferrer">doi ↗</a>
         </li>
         <li>
           <strong>Chen et al.</strong> Flood predictability using CREST-iMAP with quantitative precipitation forecasts and U-Net nowcasts.
           <em>Journal of Hydrology</em>, 2022.
+          <a href="https://doi.org/10.1016/j.jhydrol.2022.128168" target="_blank" rel="noopener noreferrer">doi ↗</a>
         </li>
         <li>
-          <strong>Chen et al.</strong> Integrated hydrologic–hydraulic mapping for Hurricane Harvey.
+          <strong>Chen et al.</strong> A comprehensive flood inundation mapping for Hurricane Harvey using an integrated hydrological and hydraulic model.
           <em>Journal of Hydrometeorology</em>, 2021.
+          <a href="https://doi.org/10.1175/JHM-D-20-0218.1" target="_blank" rel="noopener noreferrer">doi ↗</a>
         </li>
         <li>
-          <strong>Li et al.</strong> U.S. flash flood risk under a high-end climate scenario.
-          <em>Nature Communications Earth & Environment</em>, 2022.
+          <strong>Chen et al.</strong> Arequipa's water in the short future: a hydrologic outlook for an arid Peruvian Andes region (CREST-VEC, SSP5-8.5).
+          <em>American Journal of Water Resources</em>, 2025.
+          <a href="https://doi.org/10.12691/ajwr-13-2-3" target="_blank" rel="noopener noreferrer">doi ↗</a>
         </li>
         <li>
-          Additional work on CREST-iMAP, CREST-VEC, flood risk, climate extremes, and Food–Energy–Water systems.
+          <strong>Yan et al.</strong> (incl. Chen) AQUAH: Automatic Quantification and Unified Agent in Hydrology.
+          <em>arXiv preprint</em>, 2025.
+          <a href="https://arxiv.org/abs/2508.02936" target="_blank" rel="noopener noreferrer">arXiv ↗</a>
         </li>
       </ol>
       <p class="note">
-        Replace this section with your full publication list or Google Scholar link when ready.
+        See the full, up-to-date list on
+        <a href="https://scholar.google.com/citations?user=ry1Lq94AAAAJ&hl=en" target="_blank" rel="noopener noreferrer">Google Scholar</a>.
       </p>
     </section>
 
