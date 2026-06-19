@@ -16,7 +16,24 @@
 * { box-sizing: border-box; }
 html, body { margin: 0; height: 100%; font-family: -apple-system, BlinkMacSystemFont,
   "Segoe UI", Roboto, Helvetica, Arial, sans-serif; background: var(--bg); color: var(--ink); }
-#app { display: grid; grid-template-columns: 320px 1fr; height: 100vh; }
+#app { display: grid; grid-template-columns: 320px 1fr; height: 100vh; position: relative;
+  transition: grid-template-columns .2s ease; }
+#app.left-collapsed { grid-template-columns: 0 1fr; }
+#app.left-collapsed #sidebar { padding-left: 0; padding-right: 0; overflow: hidden; }
+
+/* collapse / reopen controls */
+.panel-toggle { position: absolute; top: 12px; right: 10px; z-index: 5; background: var(--panel-2);
+  color: var(--muted); border: 1px solid var(--border); border-radius: 7px; font-size: 11px;
+  padding: 3px 8px; cursor: pointer; }
+.panel-toggle:hover { color: var(--ink); }
+.panel-reopen, .detail-reopen { position: fixed; z-index: 1200; background: var(--panel-2);
+  color: var(--ink); border: 1px solid var(--accent); border-radius: 8px; font-size: 12px;
+  padding: 7px 11px; cursor: pointer; box-shadow: 0 4px 14px rgba(0,0,0,.4); display: none; }
+.panel-reopen { top: 12px; left: 12px; }
+.detail-reopen { top: 50%; right: 0; transform: translateY(-50%); border-radius: 8px 0 0 8px;
+  border-right: none; }
+#app.left-collapsed .panel-reopen { display: block; }
+.detail-reopen.show { display: block; }
 
 /* ---- sidebar ---- */
 #sidebar { background: var(--panel); border-right: 1px solid var(--border);
@@ -45,7 +62,7 @@ select, input[type=text] { width: 100%; padding: 8px 10px; background: var(--pan
   padding-top: 10px; margin-top: 6px; }
 
 /* ---- map ---- */
-#map { height: 100%; background: #0b0f14; }
+#map { height: 100%; background: #0b0f14; position: relative; z-index: 0; }
 .leaflet-container { background: #0b0f14; }
 .region-tip { font-size: 12px; }
 .region-tip b { font-size: 13px; }
@@ -53,7 +70,7 @@ select, input[type=text] { width: 100%; padding: 8px 10px; background: var(--pan
 /* ---- detail drawer ---- */
 #detail { position: absolute; top: 0; right: 0; width: 440px; max-width: 92vw; height: 100vh;
   background: var(--panel); border-left: 1px solid var(--border); box-shadow: -8px 0 30px rgba(0,0,0,.4);
-  padding: 18px 20px 40px; overflow-y: auto; transition: transform .25s ease; }
+  padding: 18px 20px 40px; overflow-y: auto; transition: transform .25s ease; z-index: 1000; }
 #detail.hidden { transform: translateX(110%); }
 #closeDetail { position: absolute; top: 12px; right: 14px; background: none; border: none;
   color: var(--muted); font-size: 26px; cursor: pointer; line-height: 1; }
@@ -89,6 +106,7 @@ select, input[type=text] { width: 100%; padding: 8px 10px; background: var(--pan
 .badge.no { background: rgba(215,48,39,.22); color: #f1928a; }
 
 .chart { width: 100%; height: 240px; margin: 4px 0 10px; }
+.chart.mini { height: 168px; margin: 0 0 2px; }
 .chart-cap { font-size: 11px; color: var(--muted); margin: -4px 0 14px; }
 .pending { background: var(--panel-2); border: 1px dashed var(--border); border-radius: 10px;
   padding: 22px; text-align: center; color: var(--muted); font-size: 13px; }

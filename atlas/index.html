@@ -9,7 +9,11 @@
 </head>
 <body>
 <div id="app">
+  <button id="sidebarReopen" class="panel-reopen" title="Show panel">☰ Panel</button>
+  <button id="detailReopen" class="detail-reopen" title="Show region details">‹ Details</button>
+
   <aside id="sidebar">
+    <button id="sidebarCollapse" class="panel-toggle" title="Collapse panel">« Hide</button>
     <header>
       <span class="wip-badge">⚗ Ongoing · unpublished work</span>
       <h1>Solar&nbsp;+&nbsp;Wind<br>Storage Atlas</h1>
@@ -48,7 +52,7 @@
   <main id="map"></main>
 
   <section id="detail" class="hidden">
-    <button id="closeDetail" title="Close">×</button>
+    <button id="closeDetail" title="Collapse details">×</button>
     <div id="detailHead">
       <h2 id="rName">—</h2>
       <div id="rCrumb" class="crumb"></div>

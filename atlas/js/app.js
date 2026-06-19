@@ -59,6 +59,15 @@ async function boot() {
   document.getElementById("closeDetail").onclick = closeDetail;
   document.querySelectorAll(".ds-tab").forEach(b =>
     b.onclick = () => { if (!b.classList.contains("disabled")) selectDataset(b.dataset.ds); });
+  // collapsible panels
+  const app = document.getElementById("app");
+  const remap = () => setTimeout(() => map && map.invalidateSize(), 230);
+  document.getElementById("sidebarCollapse").onclick = () => { app.classList.add("left-collapsed"); remap(); };
+  document.getElementById("sidebarReopen").onclick = () => { app.classList.remove("left-collapsed"); remap(); };
+  document.getElementById("detailReopen").onclick = () => {
+    document.getElementById("detail").classList.remove("hidden");
+    document.getElementById("detailReopen").classList.remove("show");
+  };
 }
 
 function buildMetricSelect() {
@@ -191,12 +200,16 @@ async function openRegion(id) {
   curDataset = "gldas";
   setTabActive();
   document.getElementById("detail").classList.remove("hidden");
+  document.getElementById("detailReopen").classList.remove("show");
   renderDataset();
   // fly to region
   const f = GEO.features.find(x => x.properties.id === id);
   if (f) { try { map.fitBounds(L.geoJSON(f).getBounds(), { maxZoom: 5, padding: [40, 40] }); } catch (e) {} }
 }
-function closeDetail() { document.getElementById("detail").classList.add("hidden"); }
+function closeDetail() {
+  document.getElementById("detail").classList.add("hidden");
+  if (curRegion) document.getElementById("detailReopen").classList.add("show");
+}
 function selectDataset(ds) { curDataset = ds; setTabActive(); renderDataset(); }
 function setTabActive() {
   document.querySelectorAll(".ds-tab").forEach(b => b.classList.toggle("active", b.dataset.ds === curDataset));
@@ -225,10 +238,13 @@ function renderDataset() {
     body.innerHTML = html;
     return;
   }
-  html += `<div class="section-h">Supply vs demand (normalized)</div>
-           <div id="chartNorm" class="chart"></div>
-           <div class="chart-cap">Monthly climatology, mean-normalized: supply (after worst-year
-           overbuild) vs demand = 1.0. Above 1 = surplus that quarter, below 1 = drawn from storage.</div>`;
+  html += `<div class="section-h">Deficit plots — supply vs demand (normalized)</div>
+           <div id="chartSolar" class="chart mini"></div>
+           <div id="chartWind" class="chart mini"></div>
+           <div id="chartMix" class="chart mini"></div>
+           <div class="chart-cap">Monthly climatology, mean-normalized: each resource's supply
+           (after worst-year overbuild) vs demand = 1.0 (dotted). Below the dotted line = a deficit
+           drawn from storage; above = surplus that recharges it.</div>`;
   if (ds.series_norm && ds.series_norm.mix_storage)
     html += `<div class="section-h">Storage state through the year</div>
              <div id="chartStore" class="chart"></div>
@@ -318,20 +334,27 @@ function usaSection(u) {
 
 /* ---------------- charts ---------------- */
 const MONTHS = ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
+function deficitPlot(divId, supply, demand, name, color, fillc) {
+  if (!document.getElementById(divId)) return;
+  Plotly.newPlot(divId, [
+    { x: MONTHS, y: supply, name, mode: "lines", line: { color, width: 2.2 },
+      fill: "tozeroy", fillcolor: fillc },
+    { x: MONTHS, y: demand, name: "demand", mode: "lines",
+      line: { color: "#e6edf3", width: 1.4, dash: "dot" } },
+  ], Object.assign({ height: 168, showlegend: false,
+    title: { text: name, font: { size: 12, color: color }, x: 0.04, y: 0.93 },
+    margin: { l: 38, r: 10, t: 6, b: 22 },
+    yaxis: { title: "", zeroline: false, rangemode: "tozero" },
+    xaxis: { tickfont: { size: 9 } } }, PLOTLY_BG),
+    { displayModeBar: false, responsive: true });
+}
+
 function drawCharts(ds, reg) {
   if (ds.series_norm) {
     const s = ds.series_norm;
-    const tr = (y, name, color, dash) => ({ x: MONTHS, y, name, mode: "lines",
-      line: { color, width: 2, dash: dash || "solid" } });
-    Plotly.newPlot("chartNorm", [
-      tr(s.solar_supply, "Solar", "#f4a259"),
-      tr(s.wind_supply, "Wind", "#4cc9a0"),
-      tr(s.mix_supply, "Optimal mix", "#5b9bd5"),
-      { x: MONTHS, y: s.demand, name: "Demand", mode: "lines",
-        line: { color: "#cdd9e2", width: 1.5, dash: "dot" } },
-    ], Object.assign({ height: 240, showlegend: true,
-      legend: { orientation: "h", y: -0.2, font: { size: 9 } },
-      yaxis: { title: "supply / mean demand" } }, PLOTLY_BG), { displayModeBar: false, responsive: true });
+    deficitPlot("chartSolar", s.solar_supply, s.demand, "Solar", "#f4a259", "rgba(244,162,89,.14)");
+    deficitPlot("chartWind", s.wind_supply, s.demand, "Wind", "#4cc9a0", "rgba(76,201,160,.14)");
+    deficitPlot("chartMix", s.mix_supply, s.demand, "Optimal mix", "#5b9bd5", "rgba(91,155,213,.15)");
 
     if (s.mix_storage)
       Plotly.newPlot("chartStore", [{ x: MONTHS, y: s.mix_storage, mode: "lines",
