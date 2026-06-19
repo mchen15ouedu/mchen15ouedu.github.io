@@ -1,0 +1,110 @@
+{
+  "title": "Solar + Wind Storage Atlas",
+  "period": "2000–2025",
+  "datasets": {
+    "gldas": {
+      "label": "GLDAS · theoretical (3-hourly)",
+      "available": true
+    },
+    "nldas": {
+      "label": "NLDAS-USA · EIA (hourly)",
+      "available": false
+    }
+  },
+  "metric_info": {
+    "solar_cf": {
+      "label": "Solar capacity factor",
+      "help": "Mean solar PV output as a fraction of nameplate.",
+      "unit": ""
+    },
+    "wind_cf": {
+      "label": "Wind capacity factor",
+      "help": "Mean wind output as a fraction of nameplate.",
+      "unit": ""
+    },
+    "mix_alpha": {
+      "label": "Optimal solar share α*",
+      "help": "Storage-optimal fraction of the build that is solar (rest is wind).",
+      "unit": ""
+    },
+    "mix_s_tot_pct": {
+      "label": "Optimal-mix storage",
+      "help": "Storage to ride out the worst year, as % of annual consumption.",
+      "unit": "% annual"
+    },
+    "solar_s_tot_pct": {
+      "label": "Solar-only storage",
+      "help": "Storage for a solar-only build, % of annual consumption.",
+      "unit": "% annual"
+    },
+    "wind_s_tot_pct": {
+      "label": "Wind-only storage",
+      "help": "Storage for a wind-only build, % of annual consumption.",
+      "unit": "% annual"
+    },
+    "mix_f_adj": {
+      "label": "Overbuild factor",
+      "help": "Excess installation (worst-year reliability) for the optimal mix.",
+      "unit": "×"
+    },
+    "solar_flaute_days": {
+      "label": "Solar dark spell",
+      "help": "Longest low-solar spell.",
+      "unit": "days"
+    },
+    "wind_flaute_days": {
+      "label": "Wind lull spell",
+      "help": "Longest low-wind (Dunkelflaute) spell.",
+      "unit": "days"
+    }
+  },
+  "map_metrics": [
+    "mix_s_tot_pct",
+    "mix_alpha",
+    "solar_cf",
+    "wind_cf",
+    "solar_s_tot_pct",
+    "wind_s_tot_pct"
+  ],
+  "land_caps": [
+    {
+      "key": "1pct",
+      "cap_pct": 1.0,
+      "label": "1% of land (NREL)"
+    },
+    {
+      "key": "oilgas2x",
+      "cap_pct": 1.8800000000000001,
+      "label": "1.88% (2× onshore oil & gas)"
+    },
+    {
+      "key": "oilgas_all",
+      "cap_pct": 5.0,
+      "label": "5% (all onshore oil & gas land)"
+    }
+  ],
+  "k_levels": [
+    0,
+    17,
+    35,
+    50
+  ],
+  "downloads": [
+    "summary.csv",
+    "usa_summary.csv",
+    "storage_ranking_full.csv",
+    "colocation_storage.csv",
+    "usa_months_unmet.csv",
+    "usa_storage_ranking.csv"
+  ],
+  "assumptions": {
+    "Model": "Each region is sized to be self-sufficient on solar+wind+storage alone, meeting demand every year including the worst. The optimal mix is the solar share α* that minimizes storage.",
+    "Overbuild (f_adj)": "Capacity is over-installed by the worst-year reliability factor f_adj so the weakest year still meets demand with storage.",
+    "Storage": "Round-trip + self-discharge: charge 0.9, discharge 0.8, annual energy retention 0.7.",
+    "Land density": "Solar 30 MW/km² (array footprint); wind 100 MW/km² (direct footprint — turbine pads + roads only; the ~98% spacing stays farmable).",
+    "Land caps": "Feasibility is tested at 1% of state land (NREL's <1% claim), 1.88% (2× US onshore oil & gas surface footprint), and 5% (all onshore oil & gas production land).",
+    "Co-location (k)": "Overlap k lets the same footprint host (1+k)× generation (turbines + PV on one parcel), so land needed shrinks and more regions fit a cap as k rises (k = 0/17/35/50%).",
+    "GLDAS vs NLDAS": "GLDAS: global 3-hourly theoretical forcing with flat (normalized) demand. NLDAS-USA: hourly forcing over the CONUS with real monthly EIA consumption, so USA results are in real energy (TWh).",
+    "Framing": "This quantifies LOCAL self-sufficiency (per-state autarky), not national grid optimization — where our land/storage exceeds NREL's <1%, that gap is the externalized cost of the national transmission build-out."
+  }
+}

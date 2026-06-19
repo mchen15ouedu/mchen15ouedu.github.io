@@ -1,0 +1,52 @@
+rank,name,mix_alpha,annual_consumption_TWh,mix_storage_TWh_1pct,mix_land_pct,feasible_1pct,feasible_oilgas2x,mix_shortfall_TWh_1pct
+1,Alaska,0.05,6.0128,0.4157,0.0044,True,True,0.0
+2,Vermont,0.4,5.553,0.8604,0.5165,True,True,0.0
+3,South Dakota,0.3,11.4744,1.1819,0.0612,True,True,0.0
+4,North Dakota,0.05,17.0388,1.2338,0.046,True,True,0.0
+5,Montana,0.0,14.2857,1.3376,0.0219,True,True,0.0
+6,Wyoming,0.3,15.8244,1.5527,0.0763,True,True,0.0
+7,Maine,0.45,11.73,1.5557,0.2807,True,True,0.0
+8,Idaho,0.2,23.5456,3.1195,0.1851,True,True,0.0
+9,Nebraska,0.5,29.7119,3.4197,0.2065,True,True,0.0
+10,New Mexico,0.9,23.259,3.5143,0.1479,True,True,0.0
+11,Iowa,0.35,47.1361,4.1695,0.3855,True,True,0.0
+12,Kansas,0.3,39.6966,4.3942,0.1887,True,True,0.0
+13,Utah,0.55,28.9993,4.7865,0.248,True,True,0.0
+14,Nevada,0.95,35.0385,5.433,0.2653,True,True,0.0
+15,Wisconsin,0.2,68.7354,5.6285,0.4036,True,True,0.0
+16,Arkansas,0.4,46.5594,6.201,0.5332,True,True,0.0
+17,Mississippi,0.55,47.8202,6.3033,0.6863,True,True,0.0
+18,Oklahoma,0.6,59.5493,6.43,0.5263,True,True,0.0
+19,Minnesota,0.25,65.946,7.1882,0.3166,True,True,0.0
+20,Colorado,0.6,52.3699,7.6549,0.3257,True,True,0.0
+21,Oregon,0.35,49.5471,8.393,0.3146,True,True,0.0
+22,Michigan,0.3,103.3838,8.4783,0.5069,True,True,0.0
+23,Arizona,0.85,75.6141,11.4207,0.4872,True,True,0.0
+24,Missouri,0.55,79.5421,11.7778,0.7278,True,True,0.0
+25,Texas,0.4,387.6579,38.9061,0.7001,True,True,0.0
+26,California,0.35,253.3695,46.6063,0.9722,True,True,0.0
+27,Washington,0.0,88.0489,,1.009,False,True,0.0
+28,Ohio,0.5,152.8583,,2.1524,False,False,68.8871
+29,Pennsylvania,0.3,144.2188,,1.8654,False,True,33.7183
+30,New York,0.3,144.6097,,1.4171,False,True,7.9127
+31,New Hampshire,0.45,10.8503,,1.0162,False,True,0.0
+32,Louisiana,0.55,86.2597,,1.2407,False,True,0.0
+33,Alabama,0.65,87.1378,,1.3359,False,True,0.4831
+34,Florida,0.85,230.1374,,3.2705,False,False,142.3599
+35,Georgia,0.65,134.8374,,1.6988,False,True,35.4071
+36,South Carolina,0.5,80.034,,1.7091,False,True,18.9057
+37,North Carolina,0.55,130.9179,,1.8975,False,False,41.286
+38,Virginia,0.5,113.8193,,2.2456,False,False,42.0932
+39,District of Columbia,0.4,11.0261,,110.9498,False,False,10.8928
+40,Maryland,0.35,62.4314,,3.5796,False,False,39.2649
+41,Delaware,0.3,11.5434,,2.7367,False,False,5.9726
+42,New Jersey,0.45,75.4566,,6.4176,False,False,60.1621
+43,Connecticut,0.3,29.6698,,3.4372,False,False,16.8573
+44,Rhode Island,0.3,7.608,,3.6989,False,False,4.5561
+45,Massachusetts,0.5,53.6776,,4.8708,False,False,38.4805
+46,Hawaii,0.95,9.6967,,1.1105,False,True,0.0
+47,Illinois,0.4,139.0493,,1.2432,False,True,4.3131
+48,Kentucky,0.45,81.6534,,1.4487,False,True,1.9809
+49,Tennessee,0.55,100.1588,,1.8328,False,True,25.2023
+50,West Virginia,0.45,31.5361,,1.0303,False,True,0.0
+51,Indiana,0.5,102.5624,,1.7927,False,True,32.3055
