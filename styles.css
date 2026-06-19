@@ -464,6 +464,46 @@ h3 { margin-bottom: 10px; font-size: 1.18rem; letter-spacing: -0.02em; }
 
 .gallery-thumbs img:hover { transform: translateY(-4px) scale(1.03); }
 
+/* ---------- Community photo gallery (masonry) ---------- */
+.photo-masonry {
+  columns: 3;
+  column-gap: 16px;
+}
+
+.photo-masonry figure {
+  break-inside: avoid;
+  margin: 0 0 16px;
+  position: relative;
+  border-radius: 16px;
+  overflow: hidden;
+  border: 1px solid var(--line);
+  box-shadow: var(--shadow);
+}
+
+.photo-masonry img {
+  display: block;
+  width: 100%;
+  height: auto;
+  transition: transform 0.5s ease;
+}
+
+.photo-masonry figure:hover img { transform: scale(1.05); }
+
+.photo-masonry figcaption {
+  position: absolute;
+  left: 0; right: 0; bottom: 0;
+  padding: 26px 14px 12px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: #fff;
+  background: linear-gradient(180deg, transparent, rgba(8, 18, 34, 0.82));
+  opacity: 0;
+  transform: translateY(8px);
+  transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+.photo-masonry figure:hover figcaption { opacity: 1; transform: none; }
+
 /* ---------- Publications ---------- */
 .publication-list {
   display: grid;
@@ -558,6 +598,11 @@ h3 { margin-bottom: 10px; font-size: 1.18rem; letter-spacing: -0.02em; }
 /* ---------- Responsive ---------- */
 @media (max-width: 980px) {
   .project-list { grid-template-columns: 1fr; }
+  .photo-masonry { columns: 2; }
+}
+
+@media (max-width: 560px) {
+  .photo-masonry { columns: 1; }
 }
 
 @media (max-width: 880px) {

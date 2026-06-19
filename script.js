@@ -23,7 +23,7 @@ if (navToggle && nav) {
 // Scroll-reveal animations (respects reduced-motion)
 const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 const revealTargets = document.querySelectorAll(
-  ".section-heading, .hero-content, .hero-portrait, .about-portrait, .card, .project, .gallery-figure, .timeline-item, .publication-list, .contact-card"
+  ".section-heading, .hero-content, .hero-portrait, .about-portrait, .card, .project, .photo-masonry figure, .timeline-item, .publication-list, .contact-card"
 );
 
 if (prefersReducedMotion || !("IntersectionObserver" in window)) {
