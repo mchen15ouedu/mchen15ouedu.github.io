@@ -137,6 +137,22 @@ a { color: inherit; }
   cursor: pointer;
 }
 
+/* ---------- Banner ---------- */
+.banner {
+  max-width: var(--max);
+  margin: 0 auto;
+  padding: 24px 24px 0;
+}
+
+.banner img {
+  display: block;
+  width: 100%;
+  height: auto;
+  border-radius: var(--radius);
+  border: 1px solid var(--line);
+  box-shadow: var(--shadow-lg);
+}
+
 /* ---------- Layout ---------- */
 .section {
   max-width: var(--max);
