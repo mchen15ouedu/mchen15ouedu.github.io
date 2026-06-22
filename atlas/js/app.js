@@ -231,7 +231,7 @@ function renderDataset() {
   const metrics = (curDataset === "nldas" && ds.metrics) ? ds.metrics : reg.metrics;
   const usaB = reg.usa ? (curDataset === "nldas" && ds.real ? ds.real : reg.usa) : null;
   let html = numberCards(metrics);
-  if (usaB) html += usaSection(usaB);
+  if (usaB) html += usaSection(usaB, reg.siting);
   if (reg.siting) html += sitingSection(reg.siting);
   if (!ds.series_norm) {
     html += `<div class="pending" style="margin-top:14px">Per-region charts for this region
@@ -307,11 +307,19 @@ function numberCards(m) {
   </div>`;
 }
 
-function usaSection(u) {
+function usaSection(u, siting) {
   const caps = META.land_caps;
   const tierColors = { "1pct": "#1a9850", oilgas2x: "#fdae61", oilgas_all: "#66bd63" };
   const card = (k, v, u2) => `<div class="card"><div class="k">${k}</div>
     <div class="v">${v}<small>${u2 || ""}</small></div></div>`;
+  // storage requirement (TWh) for the demand-meeting build: at 1% land if it fits,
+  // else the tightest larger cap where it fits (matches the feasibility tiers below)
+  let storTWh = u.mix_storage_TWh;
+  if (storTWh == null) for (const c of caps) {
+    const s = (u.caps[c.key] || {}).storage_TWh; if (s != null) { storTWh = s; break; }
+  }
+  // two land-use conventions: state-average build vs NREL best-cell siting (today's demand)
+  const sitePct = (siting && siting.scenarios && siting.scenarios[0]) ? siting.scenarios[0].land_pct : null;
   let tiers = `<div class="tiers">`;
   caps.forEach(c => {
     const info = u.caps[c.key] || {};
@@ -325,12 +333,17 @@ function usaSection(u) {
   tiers += `</div>`;
   return `<div class="section-h">Real units · EIA consumption</div><div class="cards">
     ${card("Annual demand", fmt(u.annual_consumption_TWh, 1), " TWh/yr")}
+    ${card("Storage need", fmt(storTWh, 1), " TWh")}
     ${card("Mix capacity", fmt(u.mix_capacity_TWh, 1), " TWh-rated")}
     ${card("Solar nameplate", fmt(u.mix_solar_nameplate_GW, 1), " GW")}
     ${card("Wind nameplate", fmt(u.mix_wind_nameplate_GW, 1), " GW")}
-    ${card("Land (optimal mix)", fmtPct(u.mix_land_pct), " of state")}
-    ${card("Solar-only land", fmtPct(u.solar_land_pct), " of state")}
+    ${card("Land · state-average", fmtPct(u.mix_land_pct), " of state")}
+    ${card("Land · optimal siting", sitePct != null ? fmtPct(sitePct, 2) : "—", " of state")}
   </div>
+  <div class="chart-cap" style="margin:-6px 0 8px">Two land conventions: <b>state-average</b>
+  builds the optimal mix at the state's average resource; <b>optimal siting</b> uses the best
+  NLDAS cells first (NREL-style) — usually far less land. Storage need is the TWh to ride out
+  the worst year.</div>
   <div class="section-h">Feasibility by land cap</div>${tiers}`;
 }
 
