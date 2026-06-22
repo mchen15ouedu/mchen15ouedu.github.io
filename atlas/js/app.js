@@ -16,6 +16,7 @@ const RAMPS = {
   solar_cf:       { stops: ["#08306b", "#4292c6", "#ffd24d"] },
   wind_cf:        { stops: ["#3f007d", "#807dba", "#4cc9a0"] },
   mix_alpha:      { stops: ["#2c7fb8", "#ffffbf", "#f4a259"] }, // wind<->solar
+  siting_land_pct:{ stops: ["#1a9850", "#fee08b", "#d73027"], pct: true }, // USA optimal siting
 };
 
 let META, INDEX, GEO, layer, map, curMetric, curDataset = "gldas", domain = {};
@@ -231,6 +232,7 @@ function renderDataset() {
   const usaB = reg.usa ? (curDataset === "nldas" && ds.real ? ds.real : reg.usa) : null;
   let html = numberCards(metrics);
   if (usaB) html += usaSection(usaB);
+  if (reg.siting) html += sitingSection(reg.siting);
   if (!ds.series_norm) {
     html += `<div class="pending" style="margin-top:14px">Per-region charts for this region
       haven't been generated yet (run the builder with <code>--scope world</code>). The numbers
@@ -330,6 +332,23 @@ function usaSection(u) {
     ${card("Solar-only land", fmtPct(u.solar_land_pct), " of state")}
   </div>
   <div class="section-h">Feasibility by land cap</div>${tiers}`;
+}
+
+function sitingSection(s) {
+  const caps = META.land_caps;   // tightest -> loosest (1% / 1.88% / 5%)
+  const rows = s.scenarios.map(sc => {
+    const tier = caps.find(c => sc.feasible[c.key] === true);
+    const badge = tier
+      ? `<span class="badge yes">fits ≤${tier.cap_pct % 1 ? tier.cap_pct.toFixed(2) : tier.cap_pct}% land</span>`
+      : `<span class="badge no">needs >${caps[caps.length - 1].cap_pct}%</span>`;
+    return `<div class="tier"><span class="lbl">${sc.label}</span>
+      <span class="val">${fmtPct(sc.land_pct, 2)} land</span>${badge}</div>`;
+  }).join("");
+  return `<div class="section-h">Optimal siting (NREL · best cells first)</div>
+    <div class="chart-cap" style="margin:0 0 8px">Minimum land to meet demand if built on the
+    windiest/sunniest NLDAS grid cells first (best resource per cell, worst-year reliable) —
+    the optimistic siting view, vs the "build everywhere" storage feasibility above.</div>
+    <div class="tiers">${rows}</div>`;
 }
 
 /* ---------------- charts ---------------- */

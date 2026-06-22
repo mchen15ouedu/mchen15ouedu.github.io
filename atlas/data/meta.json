@@ -56,6 +56,11 @@
       "label": "Wind lull spell",
       "help": "Longest low-wind (Dunkelflaute) spell.",
       "unit": "days"
+    },
+    "siting_land_pct": {
+      "label": "USA optimal-siting land (NREL)",
+      "help": "Min % of a state's land to meet today's demand if built on the best NLDAS grid cells first (best resource per cell, worst-year reliable). USA only.",
+      "unit": "% of state"
     }
   },
   "map_metrics": [
@@ -64,7 +69,8 @@
     "solar_cf",
     "wind_cf",
     "solar_s_tot_pct",
-    "wind_s_tot_pct"
+    "wind_s_tot_pct",
+    "siting_land_pct"
   ],
   "land_caps": [
     {
