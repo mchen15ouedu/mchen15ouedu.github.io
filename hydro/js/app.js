@@ -212,23 +212,32 @@ function drawHydro(h) {
   Plotly.newPlot("hydro", traces, layout, { displayModeBar: false, responsive: true });
 }
 
-/* ---------- downloads: each gauge's full simulation FOLDER (zip) from HF ---------- */
+/* ---------- downloads: each gauge's full simulation FOLDER from HF ----------
+   single gauge -> the gauge's zip directly. Multiple (basin / rectangle / many points)
+   -> re-extract every gauge folder into ONE combined zip so the user unzips once and
+   gets all the folders side by side: <id>/ts.1.crestphys.csv, <id>/...tif, ... */
 async function downloadSelected() { downloadFolders([...sel]); }
 async function downloadFolders(ids) {
   if (!ids.length) return;
   const base = hfBase();
   if (ids.length === 1) { window.open(`${base}/sim/${ids[0]}.zip`, "_blank"); return; }
-  if (ids.length > 60 &&
-      !confirm(`Download ${ids.length} gauge folders (~${Math.round(ids.length * 2.3)} MB)?`)) return;
+  const estMB = Math.round(ids.length * 2.3);
+  if (ids.length > 40 &&
+      !confirm(`Bundle ${ids.length} gauge folders (~${estMB} MB) into one zip?`)) return;
   const dl = document.getElementById("dlSel");
-  const old = dl.textContent; dl.textContent = `bundling ${ids.length}…`; dl.disabled = true;
+  const old = dl.textContent; dl.disabled = true;
   try {
-    const zip = new JSZip();
+    const parent = new JSZip();
+    let done = 0;
     for (const id of ids) {
+      dl.textContent = `bundling ${++done}/${ids.length}…`;
       const r = await fetch(`${base}/sim/${id}.zip`);
-      if (r.ok) zip.file(`${id}.zip`, await r.blob());
+      if (!r.ok) continue;
+      const inner = await JSZip.loadAsync(await r.arrayBuffer());   // unzip the per-gauge folder
+      await Promise.all(Object.values(inner.files).filter(f => !f.dir)
+        .map(async f => parent.file(f.name, await f.async("blob"))));   // names already prefixed <id>/
     }
-    const blob = await zip.generateAsync({ type: "blob" });
+    const blob = await parent.generateAsync({ type: "blob" });
     const a = document.createElement("a");
     a.href = URL.createObjectURL(blob); a.download = `conus_hydro_${ids.length}_gauges.zip`;
     a.click(); URL.revokeObjectURL(a.href);
