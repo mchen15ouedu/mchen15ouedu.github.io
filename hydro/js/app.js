@@ -47,7 +47,6 @@ async function boot() {
   GAUGES = await fetch("data/gauges.geojson").then(r => r.json());
   HUC = await fetch("data/basins.geojson").then(r => r.json()).catch(() => ({ features: [] }));
   document.title = META.title;
-  document.querySelector("#sidebar header h1").textContent = "CONUS Hydrograph Viewer";
   curMetric = META.default_metric;
   buildMetricSelect();
   initMap();

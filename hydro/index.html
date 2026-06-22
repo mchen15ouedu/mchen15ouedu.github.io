@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>CONUS CREST Calibration — Gauge Hydrograph Viewer</title>
+<title>CONUS CREST v3.0 Parameter Downloader</title>
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
 <link rel="stylesheet" href="https://unpkg.com/leaflet-draw@1.0.4/dist/leaflet.draw.css" />
 <link rel="stylesheet" href="css/style.css" />
@@ -12,8 +12,8 @@
 <div id="app">
   <aside id="sidebar">
     <header>
-      <h1>CONUS Hydrograph Viewer</h1>
-      <p class="sub" id="subtitle">CREST model calibration over the contiguous US</p>
+      <h1>CONUS CREST v3.0 Parameter Downloader</h1>
+      <p class="sub" id="subtitle">Calibrated CREST v3.0 model parameters at USGS gauges across the contiguous US</p>
       <span class="pub-badge">✓ Published research</span>
     </header>
 
@@ -43,6 +43,16 @@
     </section>
 
     <footer id="meta-foot"></footer>
+
+    <section class="cite">
+      <div class="cite-label">Cite this work</div>
+      <p>Chen, M., Li, Z., Vergara, H., Gourley, J. J., Xue, M., Hong, Y., Hu, X.-M.,
+        Mayol Novoa, H., Martin, E. R., McPherson, R. A., Gao, S., Vitaliano Perez, A., &amp;
+        Yanqui Morales, I. (2023). CONUS-wide model calibration and validation for CRESTv3.0
+        — an improved Coupled Routing and Excess STorage distributed hydrological model.
+        <em>Journal of Hydrology, 626</em>, 130333.
+        <a href="https://doi.org/10.1016/j.jhydrol.2023.130333" target="_blank" rel="noopener noreferrer">doi.org/10.1016/j.jhydrol.2023.130333</a></p>
+    </section>
   </aside>
 
   <main id="map"></main>
