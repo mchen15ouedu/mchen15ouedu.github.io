@@ -1,5 +1,5 @@
 /* CONUS CREST Calibration — Gauge Hydrograph Viewer.
-   Loads out/{gauges.geojson, huc12.geojson, meta.json}; per-gauge WY2019 hydrographs and
+   Loads out/{gauges.geojson, basins.geojson, meta.json}; per-gauge WY2019 hydrographs and
    full CSVs are fetched lazily from meta.hf_base (Hugging Face) or local ./data in dev. */
 "use strict";
 
@@ -45,7 +45,7 @@ const hfBase = () => (META && META.hf_base) ? META.hf_base : LOCAL;
 async function boot() {
   META = await fetch("data/meta.json").then(r => r.json());
   GAUGES = await fetch("data/gauges.geojson").then(r => r.json());
-  HUC = await fetch("data/huc12.geojson").then(r => r.json()).catch(() => ({ features: [] }));
+  HUC = await fetch("data/basins.geojson").then(r => r.json()).catch(() => ({ features: [] }));
   document.title = META.title;
   document.querySelector("#sidebar header h1").textContent = "CONUS Hydrograph Viewer";
   curMetric = META.default_metric;
@@ -81,19 +81,20 @@ function initMap() {
   const dark = L.tileLayer("https://{s}.basemaps.cartocdn.com/dark_nolabels/{z}/{x}/{y}{r}.png",
     { attribution: "© OpenStreetMap © CARTO", subdomains: "abcd", maxZoom: 19 });
   dark.addTo(map);
-  // HUC12 basins (shown when the basin tool is active)
+  // basin polygons (shown when the basin tool is active)
+  const HL = META.huc_level || "HUC8";
   hucLayer = L.geoJSON(HUC, {
     style: { color: "#4cc9a0", weight: 1, fillColor: "#4cc9a0", fillOpacity: 0.06 },
     onEachFeature: (f, lyr) => {
       lyr.on("mouseover", e => e.target.setStyle({ fillOpacity: 0.22, weight: 2 }));
       lyr.on("mouseout", e => hucLayer.resetStyle(e.target));
       lyr.on("click", () => { if (tool === "basin") selectBasin(f.properties.gauge_ids || []); });
-      lyr.bindTooltip(`HUC12 ${f.properties.huc12} · ${(f.properties.gauge_ids || []).length} gauge(s)`,
-        { sticky: true });
+      lyr.bindTooltip(`${HL} ${f.properties.huc} · ${f.properties.name || ""} · ` +
+        `${(f.properties.gauge_ids || []).length} gauge(s)`, { sticky: true });
     },
   });
   L.control.layers({ "Dark": dark, "Satellite": sat, "Topographic": topo },
-    { "HUC12 basins": hucLayer }, { position: "bottomleft", collapsed: true }).addTo(map);
+    { [`${HL} basins`]: hucLayer }, { position: "bottomleft", collapsed: true }).addTo(map);
   // rectangle-draw control (used only in rect mode)
   drawer = new L.Draw.Rectangle(map, { shapeOptions: { color: "#f4a259", weight: 2, fillOpacity: 0.05 } });
   map.on(L.Draw.Event.CREATED, e => { selectInBounds(e.layer.getBounds()); });
@@ -122,7 +123,7 @@ function tip(p) {
   const mi = META.metric_info[curMetric];
   return `<div class="gauge-tip"><b>${p.id}</b> ${p.name || ""}<br>` +
     (p.has_data ? `${mi.label}: ${fmt(p[curMetric])}` : "no simulation") +
-    (p.huc12 ? `<br>HUC12 ${p.huc12}` : "") + `</div>`;
+    (p.huc ? `<br>${META.huc_level||"HUC8"} ${p.huc}` : "") + `</div>`;
 }
 
 function buildLegend() {
@@ -172,7 +173,7 @@ async function openGauge(p) {
   document.getElementById("gName").textContent = p.id + "  " + (p.name || "");
   document.getElementById("gCrumb").textContent =
     `${p.state || ""}${p.drain_sqkm ? " · " + Math.round(p.drain_sqkm).toLocaleString() + " km²" : ""}` +
-    `${p.huc12 ? " · HUC12 " + p.huc12 : ""}`;
+    `${p.huc ? " · " + (META.huc_level||"HUC8") + " " + p.huc : ""}`;
   const mi = META.metric_info;
   const card = (k) => `<div class="card"><div class="k">${mi[k].label}</div>
     <div class="v">${fmt(p[k], k === "rmse" || k.includes("bias") ? 1 : 3)}</div></div>`;

@@ -46,5 +46,6 @@
     }
   },
   "default_metric": "nsce",
+  "huc_level": "HUC8",
   "hf_base": "https://huggingface.co/datasets/vincewin/conus-crest-hydro/resolve/main"
 }

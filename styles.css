@@ -126,6 +126,36 @@ a { color: inherit; }
 .site-nav a:hover { color: var(--text); }
 .site-nav a:hover::after { transform: scaleX(1); }
 
+/* "Demos" dropdown (groups the interactive demo pages) */
+.nav-dd { position: relative; display: inline-flex; }
+.nav-dd-btn {
+  font: inherit; color: var(--muted); background: none; border: none; cursor: pointer;
+  padding: 8px 12px; border-radius: 10px; transition: color 0.2s ease;
+}
+.nav-dd-btn:hover { color: var(--text); }
+.nav-dd-menu {
+  position: absolute; top: calc(100% + 6px); left: 0; min-width: 240px; z-index: 60;
+  display: none; flex-direction: column; gap: 2px; padding: 8px;
+  border: 1px solid var(--line-strong); border-radius: 16px;
+  background: rgba(255, 255, 255, 0.98);
+  backdrop-filter: blur(18px); -webkit-backdrop-filter: blur(18px);
+  box-shadow: var(--shadow-lg);
+}
+.nav-dd:hover .nav-dd-menu, .nav-dd.open .nav-dd-menu { display: flex; }
+.nav-dd-menu a { padding: 9px 12px; border-radius: 10px; white-space: nowrap; color: var(--muted); }
+.nav-dd-menu a:hover { color: var(--text); background: rgba(0, 0, 0, 0.045); }
+.nav-dd-menu a::after { display: none; }
+
+@media (max-width: 880px) {
+  .nav-dd { display: block; }
+  .nav-dd-btn { padding: 12px 14px; text-align: left; width: 100%; }
+  .nav-dd-menu {
+    position: static; display: flex; min-width: 0; padding: 0 0 4px 14px;
+    border: none; box-shadow: none; background: none;
+    backdrop-filter: none; -webkit-backdrop-filter: none;
+  }
+}
+
 .nav-toggle {
   display: none;
   border: 1px solid var(--line-strong);

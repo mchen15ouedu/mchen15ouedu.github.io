@@ -8,6 +8,9 @@ html,body{ margin:0; height:100%; font-family:-apple-system,BlinkMacSystemFont,"
 #sidebar{ background:var(--panel); border-right:1px solid var(--border); padding:18px 16px; overflow-y:auto; }
 #sidebar h1{ font-size:20px; margin:0 0 3px; line-height:1.1; }
 #sidebar .sub{ color:var(--muted); font-size:12px; margin:0 0 8px; }
+.pub-badge{ display:inline-block; margin-bottom:10px; padding:3px 9px; border-radius:20px;
+  font-size:10.5px; font-weight:700; letter-spacing:.04em; text-transform:uppercase; color:#bff0d4;
+  background:rgba(76,201,160,.16); border:1px solid rgba(76,201,160,.5); }
 .wip-badge{ display:inline-block; margin-bottom:10px; padding:3px 9px; border-radius:20px; font-size:10.5px;
   font-weight:700; letter-spacing:.04em; text-transform:uppercase; color:#ffd9a8;
   background:rgba(244,162,89,.16); border:1px solid rgba(244,162,89,.5); }

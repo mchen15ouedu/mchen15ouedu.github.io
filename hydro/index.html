@@ -14,7 +14,7 @@
     <header>
       <h1>CONUS Hydrograph Viewer</h1>
       <p class="sub" id="subtitle">CREST model calibration over the contiguous US</p>
-      <span class="wip-badge">⚗ Ongoing · unpublished work</span>
+      <span class="pub-badge">✓ Published research</span>
     </header>
 
     <section class="control">
@@ -27,7 +27,7 @@
       <label class="ctl-label">Select gauges</label>
       <div class="seg">
         <button class="seg-b active" data-tool="point" title="Click individual gauges">● Point</button>
-        <button class="seg-b" data-tool="basin" title="Click a HUC12 basin to grab its gauges">▱ Basin</button>
+        <button class="seg-b" data-tool="basin" title="Click a HUC8 basin to grab its gauges">▱ Basin</button>
         <button class="seg-b" data-tool="rect" title="Drag a rectangle on the map">▭ Rectangle</button>
       </div>
       <div id="selInfo" class="sel-info">No gauges selected.</div>
@@ -39,7 +39,7 @@
       <p>Each colored point is a USGS streamgauge with a calibrated CREST simulation; the color
       is its skill score. Gray faint points have no simulation. Click a point for its metrics and
       an interactive Water-Year-2019 hydrograph. Use the tools above to grab gauges by point, by
-      HUC12 basin, or by dragging a box, then download their data.</p>
+      HUC8 basin, or by dragging a box, then download their data.</p>
     </section>
 
     <footer id="meta-foot"></footer>

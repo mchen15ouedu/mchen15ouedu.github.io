@@ -20,6 +20,23 @@ if (navToggle && nav) {
   });
 }
 
+// "Demos" dropdown: hover opens it on desktop; tap/click toggles it on touch.
+const navDd = document.querySelector(".nav-dd");
+const navDdBtn = navDd && navDd.querySelector(".nav-dd-btn");
+if (navDd && navDdBtn) {
+  navDdBtn.addEventListener("click", (e) => {
+    e.stopPropagation();
+    const open = navDd.classList.toggle("open");
+    navDdBtn.setAttribute("aria-expanded", String(open));
+  });
+  document.addEventListener("click", (e) => {
+    if (!navDd.contains(e.target)) {
+      navDd.classList.remove("open");
+      navDdBtn.setAttribute("aria-expanded", "false");
+    }
+  });
+}
+
 // Scroll-reveal animations (respects reduced-motion)
 const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 const revealTargets = document.querySelectorAll(

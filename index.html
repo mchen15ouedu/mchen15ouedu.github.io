@@ -29,8 +29,13 @@
       <a href="#about">About</a>
       <a href="#research">Research</a>
       <a href="#projects">Projects</a>
-      <a href="atlas/">Atlas</a>
-      <a href="hydro/">Hydro</a>
+      <div class="nav-dd">
+        <button class="nav-dd-btn" aria-haspopup="true" aria-expanded="false">Demos ▾</button>
+        <div class="nav-dd-menu">
+          <a href="atlas/">Solar + Wind Storage Atlas</a>
+          <a href="hydro/">CONUS Hydrograph Viewer</a>
+        </div>
+      </div>
       <a href="#community">Community</a>
       <a href="#publications">Publications</a>
       <a href="#cv">CV</a>
@@ -180,13 +185,13 @@
             <img src="images/figures/fig-conus-hydro.png" alt="CONUS map of USGS streamgauges used in the CREST calibration" loading="lazy" decoding="async" />
           </div>
           <div class="project-body">
-            <span class="project-kicker">Interactive Viewer · Ongoing / Unpublished</span>
+            <span class="project-kicker">Interactive Viewer · Published</span>
             <h3>CONUS CREST Hydrograph Viewer</h3>
             <p>
               An interactive map of ~9,000 USGS streamgauges, color-coded by CREST hydrologic-model
               skill (NSCE) over the contiguous US. Click any gauge for its metrics and an interactive
-              Water-Year-2019 hydrograph; select by point, HUC12 basin, or rectangle and download the
-              simulation data. <em>Preliminary, unpublished research.</em>
+              Water-Year-2019 hydrograph; select by point, HUC8 basin, or rectangle and download the
+              simulation data. Based on published research.
             </p>
             <span class="project-link">Open the hydrograph viewer →</span>
           </div>
