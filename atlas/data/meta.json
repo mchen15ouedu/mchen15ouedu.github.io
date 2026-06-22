@@ -8,7 +8,7 @@
     },
     "nldas": {
       "label": "NLDAS-USA · EIA (hourly)",
-      "available": false
+      "available": true
     }
   },
   "metric_info": {
