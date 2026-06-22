@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>CONUS CREST Calibration — Gauge Hydrograph Viewer</title>
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+<link rel="stylesheet" href="https://unpkg.com/leaflet-draw@1.0.4/dist/leaflet.draw.css" />
+<link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+<div id="app">
+  <aside id="sidebar">
+    <header>
+      <h1>CONUS Hydrograph Viewer</h1>
+      <p class="sub" id="subtitle">CREST model calibration over the contiguous US</p>
+      <span class="wip-badge">⚗ Ongoing · unpublished work</span>
+    </header>
+
+    <section class="control">
+      <label class="ctl-label">Color gauges by</label>
+      <select id="metricSelect"></select>
+      <div id="legend" class="legend"></div>
+    </section>
+
+    <section class="control">
+      <label class="ctl-label">Select gauges</label>
+      <div class="seg">
+        <button class="seg-b active" data-tool="point" title="Click individual gauges">● Point</button>
+        <button class="seg-b" data-tool="basin" title="Click a HUC12 basin to grab its gauges">▱ Basin</button>
+        <button class="seg-b" data-tool="rect" title="Drag a rectangle on the map">▭ Rectangle</button>
+      </div>
+      <div id="selInfo" class="sel-info">No gauges selected.</div>
+      <button id="clearSel" class="btn ghost hidden">Clear selection</button>
+      <button id="dlSel" class="btn primary hidden">⤓ Download selected (folders)</button>
+    </section>
+
+    <section class="control note" id="intro">
+      <p>Each colored point is a USGS streamgauge with a calibrated CREST simulation; the color
+      is its skill score. Gray faint points have no simulation. Click a point for its metrics and
+      an interactive Water-Year-2019 hydrograph. Use the tools above to grab gauges by point, by
+      HUC12 basin, or by dragging a box, then download their data.</p>
+    </section>
+
+    <footer id="meta-foot"></footer>
+  </aside>
+
+  <main id="map"></main>
+
+  <section id="detail" class="hidden">
+    <button id="closeDetail" title="Close">×</button>
+    <h2 id="gName">—</h2>
+    <div id="gCrumb" class="crumb"></div>
+    <div id="gMetrics" class="cards"></div>
+    <div class="section-h">Hydrograph · Water Year 2019</div>
+    <div id="hydro" class="chart"></div>
+    <div class="chart-cap">Estimated vs observed discharge (left axis); precipitation as inverted
+      bars from the top (right axis) — the standard hydrograph layout.</div>
+    <div id="gLinks" class="links"></div>
+  </section>
+</div>
+
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script src="https://unpkg.com/leaflet-draw@1.0.4/dist/leaflet.draw.js"></script>
+<script src="https://cdn.plot.ly/plotly-2.35.2.min.js" charset="utf-8"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+<script src="js/app.js"></script>
+</body>
+</html>

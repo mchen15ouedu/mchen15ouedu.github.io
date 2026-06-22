@@ -1,0 +1,50 @@
+{
+  "title": "CONUS CREST Calibration \u2014 Gauge Hydrograph Viewer",
+  "water_year": "WY2019 (2018-10-01 to 2019-09-30)",
+  "n_gauges": 9058,
+  "n_data": 3183,
+  "metric_info": {
+    "nsce": {
+      "label": "NSCE",
+      "help": "Nash\u2013Sutcliffe efficiency (1 = perfect, <0 = worse than mean).",
+      "domain": [
+        -1.0,
+        1.0
+      ]
+    },
+    "cc": {
+      "label": "Correlation (CC)",
+      "help": "Pearson correlation of simulated vs observed flow.",
+      "domain": [
+        0.0,
+        1.0
+      ]
+    },
+    "rel_bias": {
+      "label": "Relative bias",
+      "help": "Percent bias of total simulated vs observed volume.",
+      "domain": [
+        -100.0,
+        100.0
+      ]
+    },
+    "norm_bias": {
+      "label": "Normalized bias",
+      "help": "Bias normalized by observed standard deviation.",
+      "domain": [
+        -50.0,
+        50.0
+      ]
+    },
+    "rmse": {
+      "label": "RMSE",
+      "help": "Root-mean-square error of flow (m\u00b3/s).",
+      "domain": [
+        0.0,
+        50.0
+      ]
+    }
+  },
+  "default_metric": "nsce",
+  "hf_base": "https://huggingface.co/datasets/vincewin/conus-crest-hydro/resolve/main"
+}
