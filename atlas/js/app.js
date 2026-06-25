@@ -462,6 +462,30 @@ function chatInit() {
     const t = document.getElementById("chatText"), v = t.value.trim();
     if (v) { t.value = ""; chatSend(v); }
   };
+  const file = document.getElementById("chatFile");
+  document.getElementById("chatAttach").onclick = () => file.click();
+  file.onchange = () => { if (file.files[0]) { chatUpload(file.files[0]); file.value = ""; } };
+}
+
+let chatUploadRec = null;   // {id, name}
+
+async function chatUpload(f) {
+  const note = chatAppend("assistant thinking", `reading ${f.name}…`);
+  const fd = new FormData(); fd.append("file", f);
+  try {
+    const d = await fetch(`${CHAT_API}/upload`, { method: "POST", body: fd }).then(r => r.json());
+    note.remove();
+    if (d.error) { chatAppend("assistant", "Couldn't read that file: " + d.error); return; }
+    chatUploadRec = { id: d.upload_id, name: d.filename };
+    const chip = document.getElementById("chatUpload");
+    chip.classList.remove("hidden");
+    chip.innerHTML = `📎 ${d.filename} <button id="chatUnattach" title="remove">×</button>`;
+    document.getElementById("chatUnattach").onclick = () => {
+      chatUploadRec = null; chip.classList.add("hidden"); chip.innerHTML = "";
+    };
+    chatAppend("assistant", `Got “${d.filename}”. Which region should I analyze it for ` +
+      `(e.g. “analyze for Texas”)? I'll work out your solar+wind storage need and land feasibility.`);
+  } catch (e) { note.remove(); chatAppend("assistant", "Upload failed — please try again."); }
 }
 
 function chatAppend(role, text) {
@@ -476,7 +500,8 @@ async function chatSend(text) {
   chatAppend("user", text);
   chatHistory.push({ role: "user", content: text });
   const thinking = chatAppend("assistant thinking", "…");
-  const context = { region: curRegion ? curRegion.name : null, dataset: curDataset, metric: curMetric };
+  const context = { region: curRegion ? curRegion.name : null, dataset: curDataset,
+                    metric: curMetric, upload_id: chatUploadRec ? chatUploadRec.id : null };
   try {
     const r = await fetch(`${CHAT_API}/chat`, {
       method: "POST", headers: { "Content-Type": "application/json" },
@@ -488,10 +513,28 @@ async function chatSend(text) {
     let reply = data.reply || "";
     if (!reply && done.length) reply = "✓ " + done.join(" · ");
     if (reply) { chatAppend("assistant", reply); chatHistory.push({ role: "assistant", content: reply }); }
+    if (data.analysis) chatRenderAnalysis(data.analysis);
   } catch (e) {
     thinking.remove();
     chatAppend("assistant", "Sorry — I couldn't reach the assistant just now. Please try again.");
   }
+}
+
+function chatRenderAnalysis(a) {
+  const f = (v, d = 2) => (v == null ? "—" : (+v).toFixed(d));
+  const cap = (a.land_feasibility || {})["1pct"];
+  const card = document.createElement("div");
+  card.className = "chat-card";
+  card.innerHTML =
+    `<div class="cc-h">${a.region} · your demand</div>` +
+    `<div class="cc-row"><span>Optimal mix</span><b>${Math.round((a.optimal_solar_share || 0) * 100)}% solar</b></div>` +
+    `<div class="cc-row"><span>Storage need</span><b>${f(a.storage_pct_of_annual, 1)}% of annual` +
+      (a.storage_TWh != null ? ` · ${f(a.storage_TWh, 2)} TWh` : "") + `</b></div>` +
+    (a.annual_consumption_TWh != null ? `<div class="cc-row"><span>Your demand</span><b>${f(a.annual_consumption_TWh, 2)} TWh/yr</b></div>` : "") +
+    (cap ? `<div class="cc-row"><span>1% land</span><b class="${cap.feasible ? "ok" : "no"}">` +
+      `${cap.feasible ? "feasible" : "over cap"} · ${f(cap.land_pct, 2)}%</b></div>` : "");
+  document.getElementById("chatLog").appendChild(card);
+  document.getElementById("chatLog").scrollTop = 1e9;
 }
 
 function execChatAction(name, args) {
@@ -518,10 +561,8 @@ function execChatAction(name, args) {
     return "see “Download data” in the left panel";
   }
   if (name === "start_upload") {
-    chatAppend("assistant", "📤 Demand upload is being set up — soon you'll drop in ≥1 year of your " +
-      "hourly or monthly consumption and get the storage + land-feasibility analysis for a region. " +
-      "Coming in the next update!");
-    return null;
+    document.getElementById("chatFile").click();
+    return "opened the file picker — attach ≥1 year of your consumption (CSV/Excel, any units)";
   }
   return null;
 }
