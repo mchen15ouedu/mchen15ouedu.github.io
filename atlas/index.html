@@ -77,6 +77,19 @@
 
     <div id="detailBody"></div>
   </section>
+
+  <!-- AI assistant -->
+  <button id="chatFab" class="chat-fab" title="Ask the atlas assistant">💬 Ask</button>
+  <section id="chatPanel" class="chat-panel hidden">
+    <header class="chat-head"><span>🔋 Atlas assistant</span>
+      <button id="chatClose" title="Close">×</button></header>
+    <div id="chatLog" class="chat-log"></div>
+    <form id="chatForm" class="chat-input">
+      <input id="chatText" type="text" autocomplete="off"
+             placeholder="Ask about a region, a metric, or your own data…" />
+      <button type="submit" title="Send">➤</button>
+    </form>
+  </section>
 </div>
 
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>

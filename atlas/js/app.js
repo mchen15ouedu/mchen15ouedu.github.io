@@ -60,6 +60,7 @@ async function boot() {
   document.getElementById("closeDetail").onclick = closeDetail;
   document.querySelectorAll(".ds-tab").forEach(b =>
     b.onclick = () => { if (!b.classList.contains("disabled")) selectDataset(b.dataset.ds); });
+  chatInit();
   // collapsible panels
   const app = document.getElementById("app");
   const remap = () => setTimeout(() => map && map.invalidateSize(), 230);
@@ -437,6 +438,92 @@ function drawColocation(c) {
   }], Object.assign({ height: 200,
     xaxis: { title: "overlap k" }, yaxis: { title: "storage (% annual cons.)" } }, PLOTLY_BG),
     { displayModeBar: false, responsive: true });
+}
+
+/* ---------------- AI assistant (HF Space backend) ---------------- */
+const CHAT_API = "https://vincewin-demo-storage.hf.space";
+const chatHistory = [];
+
+function chatInit() {
+  const fab = document.getElementById("chatFab"), panel = document.getElementById("chatPanel");
+  if (!fab) return;
+  fab.onclick = () => {
+    panel.classList.toggle("hidden");
+    if (!panel.classList.contains("hidden")) {
+      document.getElementById("chatText").focus();
+      if (!chatHistory.length) chatAppend("assistant",
+        "Hi! I can explain the metrics, open a region, recolor the map, point you to the downloads, " +
+        "or help you analyze your own electricity demand. What would you like?");
+    }
+  };
+  document.getElementById("chatClose").onclick = () => panel.classList.add("hidden");
+  document.getElementById("chatForm").onsubmit = e => {
+    e.preventDefault();
+    const t = document.getElementById("chatText"), v = t.value.trim();
+    if (v) { t.value = ""; chatSend(v); }
+  };
+}
+
+function chatAppend(role, text) {
+  const log = document.getElementById("chatLog");
+  const d = document.createElement("div");
+  d.className = "chat-msg " + role; d.textContent = text;
+  log.appendChild(d); log.scrollTop = log.scrollHeight;
+  return d;
+}
+
+async function chatSend(text) {
+  chatAppend("user", text);
+  chatHistory.push({ role: "user", content: text });
+  const thinking = chatAppend("assistant thinking", "…");
+  const context = { region: curRegion ? curRegion.name : null, dataset: curDataset, metric: curMetric };
+  try {
+    const r = await fetch(`${CHAT_API}/chat`, {
+      method: "POST", headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ messages: chatHistory.slice(-16), context }),
+    });
+    const data = await r.json();
+    thinking.remove();
+    const done = (data.actions || []).map(a => execChatAction(a.name, a.args)).filter(Boolean);
+    let reply = data.reply || "";
+    if (!reply && done.length) reply = "✓ " + done.join(" · ");
+    if (reply) { chatAppend("assistant", reply); chatHistory.push({ role: "assistant", content: reply }); }
+  } catch (e) {
+    thinking.remove();
+    chatAppend("assistant", "Sorry — I couldn't reach the assistant just now. Please try again.");
+  }
+}
+
+function execChatAction(name, args) {
+  args = args || {};
+  if (name === "open_region") {
+    const q = String(args.name || "").toLowerCase();
+    const e = INDEX.find(r => r.name.toLowerCase() === q) ||
+              INDEX.find(r => r.name.toLowerCase().includes(q));
+    if (e) { openRegion(e.id); return `opened ${e.name}`; }
+    return `couldn't find "${args.name}"`;
+  }
+  if (name === "set_map_metric") {
+    if (!META.map_metrics.includes(args.key)) return null;
+    const sel = document.getElementById("metricSelect");
+    sel.value = args.key; curMetric = args.key; styleLayer(); buildLegend();
+    return `colored by ${(META.metric_info[args.key] || {}).label || args.key}`;
+  }
+  if (name === "switch_dataset") {
+    if (curRegion && curRegion.usa) { selectDataset(args.dataset); return `switched to ${String(args.dataset).toUpperCase()}`; }
+    return "open a USA state first to switch datasets";
+  }
+  if (name === "show_downloads") {
+    document.getElementById("downloads").scrollIntoView({ behavior: "smooth", block: "center" });
+    return "see “Download data” in the left panel";
+  }
+  if (name === "start_upload") {
+    chatAppend("assistant", "📤 Demand upload is being set up — soon you'll drop in ≥1 year of your " +
+      "hourly or monthly consumption and get the storage + land-feasibility analysis for a region. " +
+      "Coming in the next update!");
+    return null;
+  }
+  return null;
 }
 
 boot();
