@@ -232,7 +232,7 @@ function renderDataset() {
   const usaB = reg.usa ? (curDataset === "nldas" && ds.real ? ds.real : reg.usa) : null;
   let html = numberCards(metrics);
   if (usaB) html += usaSection(usaB, reg.siting);
-  if (reg.siting) html += sitingSection(reg.siting);
+  if (reg.siting) html += sitingSection(reg.siting, usaB);
   if (!ds.series_norm) {
     html += `<div class="pending" style="margin-top:14px">Per-region charts for this region
       haven't been generated yet (run the builder with <code>--scope world</code>). The numbers
@@ -307,17 +307,24 @@ function numberCards(m) {
   </div>`;
 }
 
+// storage requirement (TWh) for the demand-meeting build: the top-level value if present
+// (GLDAS), else the tightest feasible cap's storage (NLDAS stores it only under caps).
+function baseStorageTWh(u) {
+  if (!u) return null;
+  if (u.mix_storage_TWh != null) return u.mix_storage_TWh;
+  for (const c of META.land_caps) {
+    const s = (u.caps && u.caps[c.key] || {}).storage_TWh;
+    if (s != null) return s;
+  }
+  return null;
+}
+
 function usaSection(u, siting) {
   const caps = META.land_caps;
   const tierColors = { "1pct": "#1a9850", oilgas2x: "#fdae61", oilgas_all: "#66bd63" };
   const card = (k, v, u2) => `<div class="card"><div class="k">${k}</div>
     <div class="v">${v}<small>${u2 || ""}</small></div></div>`;
-  // storage requirement (TWh) for the demand-meeting build: at 1% land if it fits,
-  // else the tightest larger cap where it fits (matches the feasibility tiers below)
-  let storTWh = u.mix_storage_TWh;
-  if (storTWh == null) for (const c of caps) {
-    const s = (u.caps[c.key] || {}).storage_TWh; if (s != null) { storTWh = s; break; }
-  }
+  const storTWh = baseStorageTWh(u);
   // two land-use conventions: state-average build vs NREL best-cell siting (today's demand)
   const sitePct = (siting && siting.scenarios && siting.scenarios[0]) ? siting.scenarios[0].land_pct : null;
   let tiers = `<div class="tiers">`;
@@ -347,20 +354,29 @@ function usaSection(u, siting) {
   <div class="section-h">Feasibility by land cap</div>${tiers}`;
 }
 
-function sitingSection(s) {
+// demand-growth multipliers (uniform on annual demand) — must match SITING_SCEN in
+// nldas_pixel_siting.py. Under uniform growth + proportional build, the worst-year storage
+// fraction is invariant, so storage_TWh scales linearly: base × mult.
+const SCENARIO_MULT = { today: 1.0, "2030ref": 1.14, "2030hi": 1.25 };
+
+function sitingSection(s, u) {
   const caps = META.land_caps;   // tightest -> loosest (1% / 1.88% / 5%)
+  const baseStor = baseStorageTWh(u);
   const rows = s.scenarios.map(sc => {
+    const mult = SCENARIO_MULT[sc.key] != null ? SCENARIO_MULT[sc.key] : 1;
+    const stor = baseStor != null ? baseStor * mult : null;
     const tier = caps.find(c => sc.feasible[c.key] === true);
     const badge = tier
-      ? `<span class="badge yes">fits ≤${tier.cap_pct % 1 ? tier.cap_pct.toFixed(2) : tier.cap_pct}% land</span>`
-      : `<span class="badge no">needs >${caps[caps.length - 1].cap_pct}%</span>`;
+      ? `<span class="badge yes">land ≤${tier.cap_pct % 1 ? tier.cap_pct.toFixed(2) : tier.cap_pct}%</span>`
+      : `<span class="badge no">land >${caps[caps.length - 1].cap_pct}%</span>`;
     return `<div class="tier"><span class="lbl">${sc.label}</span>
-      <span class="val">${fmtPct(sc.land_pct, 2)} land</span>${badge}</div>`;
+      <span class="val">${stor != null ? fmt(stor, 1) + " TWh" : "—"}` +
+      `<small style="color:var(--muted)"> · ${fmtPct(sc.land_pct, 2)} land</small></span>${badge}</div>`;
   }).join("");
-  return `<div class="section-h">Optimal siting (NREL · best cells first)</div>
-    <div class="chart-cap" style="margin:0 0 8px">Minimum land to meet demand if built on the
-    windiest/sunniest NLDAS grid cells first (best resource per cell, worst-year reliable) —
-    the optimistic siting view, vs the "build everywhere" storage feasibility above.</div>
+  return `<div class="section-h">Demand growth → storage requirement</div>
+    <div class="chart-cap" style="margin:0 0 8px">Storage (TWh, sized to ride out the worst year)
+    as electricity demand grows under each scenario; the land figure is the best-cell (NREL) siting
+    footprint. Storage scales with demand, while land grows faster as the best sites fill up.</div>
     <div class="tiers">${rows}</div>`;
 }
 
