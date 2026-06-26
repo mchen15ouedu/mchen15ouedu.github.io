@@ -1,0 +1,59 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 360" font-family="Inter, system-ui, sans-serif">
+  <defs>
+    <linearGradient id="mix" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#d97757"/>
+      <stop offset="1" stop-color="#a8472a"/>
+    </linearGradient>
+  </defs>
+
+  <!-- Mixed track (left) -->
+  <text x="170" y="40" text-anchor="middle" font-size="22" font-weight="700" fill="#2a2620">Song</text>
+  <g fill="url(#mix)">
+    <rect x="70"  y="150" width="11" height="60"  rx="5"/>
+    <rect x="88"  y="125" width="11" height="110" rx="5"/>
+    <rect x="106" y="105" width="11" height="150" rx="5"/>
+    <rect x="124" y="140" width="11" height="80"  rx="5"/>
+    <rect x="142" y="95"  width="11" height="170" rx="5"/>
+    <rect x="160" y="120" width="11" height="120" rx="5"/>
+    <rect x="178" y="80"  width="11" height="200" rx="5"/>
+    <rect x="196" y="130" width="11" height="100" rx="5"/>
+    <rect x="214" y="150" width="11" height="60"  rx="5"/>
+    <rect x="232" y="110" width="11" height="140" rx="5"/>
+    <rect x="250" y="135" width="11" height="90"  rx="5"/>
+    <rect x="268" y="118" width="11" height="124" rx="5"/>
+  </g>
+
+  <!-- Split connectors -->
+  <g fill="none" stroke="#c9b89c" stroke-width="3">
+    <path d="M300 180 C 360 180, 380 70,  470 70"/>
+    <path d="M300 180 C 360 180, 380 137, 470 137"/>
+    <path d="M300 180 C 360 180, 380 223, 470 223"/>
+    <path d="M300 180 C 360 180, 380 290, 470 290"/>
+  </g>
+  <circle cx="300" cy="180" r="9" fill="#c15f3c"/>
+
+  <!-- Stem lanes (right): dot + label + mini waveform -->
+  <!-- vocals -->
+  <circle cx="486" cy="70" r="8" fill="#d97757"/>
+  <text x="506" y="76" font-size="20" font-weight="600" fill="#2a2620">Vocals</text>
+  <path d="M640 70 l14 -28 14 40 14 -50 14 30 14 -22 14 36 14 -30 14 24 14 -40 14 44 14 -20 14 28 14 -34 14 26"
+        fill="none" stroke="#d97757" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+
+  <!-- drums -->
+  <circle cx="486" cy="137" r="8" fill="#dca15a"/>
+  <text x="506" y="143" font-size="20" font-weight="600" fill="#2a2620">Drums</text>
+  <path d="M640 137 l14 -40 14 44 14 -16 14 20 14 -46 14 50 14 -22 14 18 14 -38 14 42 14 -14 14 16 14 -44 14 40"
+        fill="none" stroke="#dca15a" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+
+  <!-- bass -->
+  <circle cx="486" cy="223" r="8" fill="#a8472a"/>
+  <text x="506" y="229" font-size="20" font-weight="600" fill="#2a2620">Bass</text>
+  <path d="M640 223 l14 -16 14 20 14 -10 14 14 14 -22 14 24 14 -12 14 10 14 -18 14 22 14 -8 14 12 14 -20 14 16"
+        fill="none" stroke="#a8472a" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+
+  <!-- other -->
+  <circle cx="486" cy="290" r="8" fill="#7a7256"/>
+  <text x="506" y="296" font-size="20" font-weight="600" fill="#2a2620">Other</text>
+  <path d="M640 290 l14 -26 14 30 14 -36 14 40 14 -18 14 22 14 -28 14 32 14 -24 14 28 14 -34 14 30 14 -16 14 20"
+        fill="none" stroke="#7a7256" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>
