@@ -1,0 +1,93 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>CREST AI Flood Dashboard — Demo | Mengye Chen</title>
+  <meta name="description" content="Interactive demo: an agentic flash-flood dashboard — describe a flood in plain language or pick USGS gauges from the map, and watch the CREST/EF5 model simulate it live with 2-D streamflow, hydrographs, and AI calibration. Built by Mengye Chen, hosted on Hugging Face." />
+  <meta name="author" content="Mengye Chen" />
+  <meta property="og:title" content="CREST AI Flood Dashboard — Demo | Mengye Chen" />
+  <meta property="og:description" content="Chat-driven CREST/EF5 flash-flood simulations with a live map: 2-D streamflow animation, live hydrographs, and AI parameter calibration." />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://mcspace.work/demos/crest-ai.html" />
+  <link rel="icon" href="../favicon.svg" type="image/svg+xml" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="../styles.css?v=20260618" />
+  <style>
+    .demo-hero { padding-top: 28px; }
+    .demo-meta { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 18px; }
+    .embed-wrap {
+      margin-top: 10px;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      overflow: hidden;
+      background: var(--panel);
+      box-shadow: var(--shadow);
+    }
+    .embed-wrap iframe { width: 100%; height: 920px; border: 0; display: block; }
+    .embed-note { color: var(--muted); font-size: 0.92rem; margin-top: 14px; }
+    @media (max-width: 640px) { .embed-wrap iframe { height: 1100px; } }
+  </style>
+</head>
+<body>
+  <header class="site-header">
+    <a class="brand" href="../index.html#top" aria-label="Mengye Chen homepage">
+      <span class="brand-mark">MC</span>
+      <span class="brand-text">Mengye Chen</span>
+    </a>
+    <button class="nav-toggle" aria-label="Toggle navigation" aria-expanded="false">☰</button>
+    <nav class="site-nav" aria-label="Main navigation">
+      <a href="../index.html#about">About</a>
+      <a href="../index.html#research">Research</a>
+      <a href="../index.html#projects">Projects</a>
+      <a href="../index.html#publications">Publications</a>
+      <a href="../index.html#contact">Contact</a>
+    </nav>
+  </header>
+
+  <main id="top">
+    <section class="section demo-hero">
+      <p class="eyebrow">Demo · AI for Hydrology</p>
+      <h1>CREST AI Flood Dashboard</h1>
+      <div class="body-copy">
+        <p>
+          Describe a flood in plain language — <em>“flood in Kerrville, Texas, July 2025”</em> — or
+          pick <strong>USGS gauges straight from the map</strong>, and the dashboard sets up and runs
+          the <strong>CREST/EF5</strong> hydrologic model live: 2-D streamflow animates over the map,
+          hydrographs stream in as the model computes, and an AI assistant explains the event,
+          reports skill scores, and can even <strong>calibrate the model parameters</strong> when the
+          fit is poor. Sign in with Hugging Face for a personal profile.
+        </p>
+      </div>
+      <div class="demo-meta">
+        <a class="button primary" href="https://vincewin-crest-demo.hf.space" target="_blank" rel="noopener noreferrer">Open in full screen ↗</a>
+        <a class="button" href="https://github.com/mchen15ouedu/CREST_AI" target="_blank" rel="noopener noreferrer">Source on GitHub</a>
+      </div>
+    </section>
+
+    <section class="section" style="padding-top: 0;">
+      <div class="embed-wrap">
+        <iframe
+          src="https://vincewin-crest-demo.hf.space"
+          title="CREST AI Flood Dashboard interactive demo"
+          allow="clipboard-write; fullscreen; geolocation"
+          loading="lazy"></iframe>
+      </div>
+      <p class="embed-note">
+        The demo may take a moment to wake if it has been idle. A simulation with warm-up typically
+        runs 2–4 minutes on the free hardware; repeat runs of the same basin are much faster thanks
+        to state and result caching. If the embed doesn't load,
+        <a href="https://vincewin-crest-demo.hf.space" target="_blank" rel="noopener noreferrer">open it in a new tab</a>.
+      </p>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <p>© <span id="year"></span> Mengye Chen. Built for <a href="https://mcspace.work">mcspace.work</a>.</p>
+  </footer>
+
+  <script src="../script.js?v=20260618"></script>
+</body>
+</html>

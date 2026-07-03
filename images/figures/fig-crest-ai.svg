@@ -1,0 +1,62 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 360" font-family="Inter, system-ui, sans-serif">
+  <defs>
+    <linearGradient id="water" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#3a86c8"/>
+      <stop offset="1" stop-color="#1f5e94"/>
+    </linearGradient>
+    <linearGradient id="flow" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#ffd25e"/>
+      <stop offset=".55" stop-color="#f08a3c"/>
+      <stop offset="1" stop-color="#c62f2f"/>
+    </linearGradient>
+  </defs>
+
+  <!-- Map panel (left): basin with a stream network + gauge pins -->
+  <text x="240" y="40" text-anchor="middle" font-size="22" font-weight="700" fill="#2a2620">Pick gauges on the map</text>
+  <rect x="60" y="60" width="360" height="240" rx="14" fill="#eef3f6" stroke="#c9d5dd" stroke-width="2"/>
+  <!-- stream network -->
+  <g fill="none" stroke="url(#water)" stroke-linecap="round">
+    <path d="M110 100 C 150 140, 170 170, 240 200" stroke-width="4"/>
+    <path d="M150 90  C 180 130, 200 160, 240 200" stroke-width="5"/>
+    <path d="M330 95  C 300 135, 280 165, 240 200" stroke-width="5"/>
+    <path d="M370 130 C 330 160, 300 180, 240 200" stroke-width="4"/>
+    <path d="M240 200 C 235 230, 235 255, 245 290" stroke-width="9"/>
+  </g>
+  <!-- gauge pins -->
+  <g stroke="#ffffff" stroke-width="2.5">
+    <circle cx="240" cy="200" r="11" fill="#e8a33d"/>
+    <circle cx="150" cy="90"  r="8"  fill="#3a86c8"/>
+    <circle cx="330" cy="95"  r="8"  fill="#3a86c8"/>
+    <circle cx="245" cy="290" r="8"  fill="#3a86c8"/>
+  </g>
+
+  <!-- arrow: AI runs the model -->
+  <g>
+    <path d="M455 180 H 555" stroke="#8b8378" stroke-width="5" stroke-linecap="round"/>
+    <path d="M540 162 L 566 180 L 540 198 Z" fill="#8b8378"/>
+    <text x="510" y="150" text-anchor="middle" font-size="19" font-weight="600" fill="#5c554b">AI runs</text>
+    <text x="510" y="222" text-anchor="middle" font-size="19" font-weight="600" fill="#5c554b">CREST/EF5</text>
+  </g>
+
+  <!-- Result panel (right): live hydrograph + 2-D flow strip -->
+  <text x="855" y="40" text-anchor="middle" font-size="22" font-weight="700" fill="#2a2620">Watch the flood live</text>
+  <rect x="610" y="60" width="490" height="240" rx="14" fill="#f7f4ee" stroke="#d8d0c2" stroke-width="2"/>
+  <!-- precip bars (top, hanging) -->
+  <g fill="#9fc3e0">
+    <rect x="660" y="72" width="16" height="18" rx="3"/>
+    <rect x="682" y="72" width="16" height="44" rx="3"/>
+    <rect x="704" y="72" width="16" height="66" rx="3"/>
+    <rect x="726" y="72" width="16" height="38" rx="3"/>
+    <rect x="748" y="72" width="16" height="16" rx="3"/>
+  </g>
+  <!-- hydrograph curves -->
+  <g fill="none" stroke-linecap="round">
+    <path d="M640 268 C 720 262, 760 250, 800 170 C 826 120, 850 118, 876 168 C 912 240, 990 262, 1070 266"
+          stroke="#2e9e77" stroke-width="6"/>
+    <path d="M640 272 C 724 268, 768 258, 812 186 C 834 148, 856 146, 880 188 C 916 248, 992 268, 1070 270"
+          stroke="#a9a294" stroke-width="4" stroke-dasharray="10 8"/>
+  </g>
+  <!-- 2-D streamflow color strip -->
+  <rect x="660" y="286" width="380" height="12" rx="6" fill="url(#flow)"/>
+  <text x="850" y="323" text-anchor="middle" font-size="15" fill="#5c554b">2-D streamflow · animated over the map</text>
+</svg>
