@@ -241,7 +241,8 @@ h3 { margin-bottom: 10px; font-size: 1.25rem; letter-spacing: -0.01em; }
 
 .hero-name {
   position: relative;
-  z-index: 1;
+  z-index: 2; /* type laps over the portrait, not under it */
+  pointer-events: none;
   margin: 0;
   max-width: none;
   font-size: clamp(3.4rem, 12.5vw, 11.5rem);
@@ -338,7 +339,7 @@ h3 { margin-bottom: 10px; font-size: 1.25rem; letter-spacing: -0.01em; }
 /* Hero portrait — pulled up so it overlaps the giant name */
 .hero-portrait {
   position: relative;
-  z-index: 2;
+  z-index: 1;
   justify-self: end;
   width: min(330px, 34vw);
   aspect-ratio: 3 / 4;
