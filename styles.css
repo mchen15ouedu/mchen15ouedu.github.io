@@ -231,13 +231,44 @@ h2 {
 
 h3 { margin-bottom: 10px; font-size: 1.25rem; letter-spacing: -0.01em; }
 
-/* ---------- Hero ---------- */
+/* ---------- Hero (bold, overlapping) ---------- */
 .hero {
+  display: block;
+  min-height: auto;
+  padding-top: 72px;
+  padding-bottom: 104px;
+}
+
+.hero-name {
+  position: relative;
+  z-index: 1;
+  margin: 0;
+  max-width: none;
+  font-size: clamp(3.4rem, 12.5vw, 11.5rem);
+  line-height: 0.88;
+  letter-spacing: -0.03em;
+}
+
+.hero-name .line { display: block; }
+
+.hero-name .line.accent {
+  color: var(--clay);
+  margin-left: clamp(0px, 24vw, 320px);
+}
+
+.hero-name .phd {
+  font-size: 0.32em;
+  font-weight: 500;
+  color: var(--muted);
+  letter-spacing: -0.01em;
+}
+
+.hero-body {
   display: grid;
-  grid-template-columns: minmax(0, 1.3fr) minmax(280px, 0.7fr);
-  gap: 56px;
-  align-items: center;
-  min-height: 74vh;
+  grid-template-columns: minmax(0, 1.15fr) minmax(260px, 0.85fr);
+  gap: 48px;
+  align-items: start;
+  margin-top: 44px;
 }
 
 .hero-subtitle {
@@ -304,12 +335,14 @@ h3 { margin-bottom: 10px; font-size: 1.25rem; letter-spacing: -0.01em; }
 
 .button.secondary:hover { border-color: var(--ink); }
 
-/* Hero portrait */
+/* Hero portrait — pulled up so it overlaps the giant name */
 .hero-portrait {
   position: relative;
+  z-index: 2;
   justify-self: end;
-  width: min(340px, 78vw);
+  width: min(330px, 34vw);
   aspect-ratio: 3 / 4;
+  margin-top: clamp(-250px, -17vw, -70px);
 }
 
 .hero-portrait img {
@@ -340,7 +373,22 @@ h3 { margin-bottom: 10px; font-size: 1.25rem; letter-spacing: -0.01em; }
 
 .body-copy { color: var(--muted); font-size: 1.08rem; }
 
-.section-heading { max-width: 860px; margin-bottom: 48px; }
+.section-heading { position: relative; max-width: 860px; margin-bottom: 48px; }
+
+/* Giant ghost numeral bleeding over the section content */
+.section-heading::after {
+  content: attr(data-num);
+  position: absolute;
+  top: -0.5em;
+  right: -14px;
+  z-index: -1;
+  font-family: var(--serif);
+  font-weight: 600;
+  font-size: clamp(8rem, 20vw, 17rem);
+  line-height: 1;
+  color: rgba(193, 95, 60, 0.09);
+  pointer-events: none;
+}
 
 /* Research areas: numbered, ruled, no boxes */
 .card-grid {
@@ -653,6 +701,30 @@ h3 { margin-bottom: 10px; font-size: 1.25rem; letter-spacing: -0.01em; }
 
 .reveal.in-view { opacity: 1; transform: none; }
 
+/* ---------- Bold overlaps (desktop) ---------- */
+@media (min-width: 881px) {
+  /* About portrait breaks upward across the section rule, collage-style */
+  #about .about-portrait { margin-top: -120px; }
+}
+
+@media (min-width: 981px) {
+  /* First project becomes a full-width horizontal feature card */
+  .project-list .project:first-child { grid-column: 1 / -1; flex-direction: row; }
+  .project-list .project:first-child .project-figure {
+    width: 46%;
+    height: auto;
+    min-height: 320px;
+    border-bottom: 0;
+    border-right: 1px solid var(--line);
+  }
+  .project-list .project:first-child .project-body {
+    width: 54%;
+    padding: 36px 40px;
+    justify-content: center;
+  }
+  .project-list .project:first-child h3 { font-size: clamp(1.6rem, 2.4vw, 2.1rem); }
+}
+
 /* ---------- Responsive ---------- */
 @media (max-width: 980px) {
   .project-list { grid-template-columns: 1fr; }
@@ -685,14 +757,22 @@ h3 { margin-bottom: 10px; font-size: 1.25rem; letter-spacing: -0.01em; }
   .site-nav.open { display: flex; }
   .site-nav a { padding: 12px 14px; }
 
-  .hero,
+  .hero-body,
   .two-column,
   .split-panel,
   .contact-section { grid-template-columns: 1fr; }
 
-  .hero { min-height: auto; padding-top: 52px; }
+  .hero { padding-top: 52px; padding-bottom: 64px; }
+  .hero-name .line.accent { margin-left: 0; }
+  .hero-body { margin-top: 26px; gap: 32px; }
   .hero-content { order: 2; }
-  .hero-portrait { order: 1; margin-bottom: 12px; justify-self: start; }
+  .hero-portrait {
+    order: 1;
+    margin-top: 0;
+    margin-bottom: 4px;
+    justify-self: start;
+    width: min(300px, 78vw);
+  }
 
   .gallery-compact .gallery-label { max-width: none; }
   .gallery-thumbs { margin-left: 0; }

@@ -16,7 +16,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Inter:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="styles.css?v=20260706" />
+  <link rel="stylesheet" href="styles.css?v=20260706b" />
 </head>
 <body>
   <header class="site-header">
@@ -53,28 +53,33 @@
     </section>
 
     <section class="hero section">
-      <div class="hero-content">
-        <p class="eyebrow">Hydrology • Climate Extremes • AI for Water Systems</p>
-        <h1><span class="name-gradient">Mengye Chen</span>, Ph.D.</h1>
-        <p class="hero-subtitle">
-          Water resources scientist working at the intersection of hydrologic modeling,
-          flood prediction, remote sensing, climate risk, and AI-assisted environmental analysis.
-        </p>
-        <div class="hero-actions">
-          <a class="button primary" href="#projects">View Projects</a>
-          <a class="button secondary" href="#contact">Contact</a>
+      <p class="eyebrow">Hydrology • Climate Extremes • AI for Water Systems</p>
+      <h1 class="hero-name" aria-label="Mengye Chen, Ph.D.">
+        <span class="line">Mengye</span>
+        <span class="line accent">Chen<span class="phd">, Ph.D.</span></span>
+      </h1>
+      <div class="hero-body">
+        <div class="hero-content">
+          <p class="hero-subtitle">
+            Water resources scientist working at the intersection of hydrologic modeling,
+            flood prediction, remote sensing, climate risk, and AI-assisted environmental analysis.
+          </p>
+          <div class="hero-actions">
+            <a class="button primary" href="#projects">View Projects</a>
+            <a class="button secondary" href="#contact">Contact</a>
+          </div>
+          <div class="hero-tags" aria-label="Focus areas">
+            <span>Hydrologic Modeling</span>
+            <span>Flood Prediction</span>
+            <span>Climate Risk</span>
+            <span>Remote Sensing</span>
+            <span>AI for Water</span>
+          </div>
         </div>
-        <div class="hero-tags" aria-label="Focus areas">
-          <span>Hydrologic Modeling</span>
-          <span>Flood Prediction</span>
-          <span>Climate Risk</span>
-          <span>Remote Sensing</span>
-          <span>AI for Water</span>
+        <div class="hero-portrait">
+          <img src="images/headshot-hero.jpg" width="933" height="1400"
+               alt="Portrait of Mengye Chen" loading="eager" decoding="async" fetchpriority="high" />
         </div>
-      </div>
-      <div class="hero-portrait">
-        <img src="images/headshot-hero.jpg" width="933" height="1400"
-             alt="Portrait of Mengye Chen" loading="eager" decoding="async" fetchpriority="high" />
       </div>
     </section>
 
@@ -128,7 +133,7 @@
     </section>
 
     <section id="research" class="section">
-      <div class="section-heading">
+      <div class="section-heading" data-num="02">
         <p class="eyebrow">02 — Research Areas</p>
         <h2>What I work on</h2>
       </div>
@@ -161,7 +166,7 @@
     </section>
 
     <section id="projects" class="section">
-      <div class="section-heading">
+      <div class="section-heading" data-num="03">
         <p class="eyebrow">03 — Selected Projects</p>
         <h2>Modeling, climate, and AI-enabled water systems</h2>
       </div>
@@ -317,7 +322,7 @@
     </section>
 
     <section id="community" class="section">
-      <div class="section-heading">
+      <div class="section-heading" data-num="04">
         <p class="eyebrow">04 — Community &amp; Field</p>
         <h2>Conferences, collaborators, and community engagement</h2>
       </div>
@@ -361,7 +366,7 @@
     </section>
 
     <section id="publications" class="section">
-      <div class="section-heading">
+      <div class="section-heading" data-num="05">
         <p class="eyebrow">05 — Publications</p>
         <h2>Selected publications and research outputs</h2>
       </div>
