@@ -528,9 +528,9 @@ h3 { margin-bottom: 10px; font-size: 1.25rem; letter-spacing: -0.01em; }
 
 .milestone {
   display: grid;
-  grid-template-columns: 110px minmax(0, 1fr);
+  grid-template-columns: 110px minmax(0, 1fr) auto;
   gap: 18px;
-  align-items: baseline;
+  align-items: center;
   padding: 12px 0;
   border-top: 1px solid var(--line);
 }
@@ -554,21 +554,19 @@ h3 { margin-bottom: 10px; font-size: 1.25rem; letter-spacing: -0.01em; }
   font-weight: 600;
 }
 
-.gallery-thumbs { display: flex; gap: 12px; margin-left: auto; }
+.milestone-pics { display: flex; gap: 8px; justify-content: flex-end; }
 
-.gallery-thumbs figure { margin: 0; }
-
-.gallery-thumbs img {
-  width: 92px;
-  height: 116px;
+.milestone-pics img {
+  width: 62px;
+  height: 78px;
   object-fit: cover;
-  border-radius: 8px;
+  border-radius: 6px;
   border: 1px solid var(--line-strong);
   transition: transform 0.25s ease;
   cursor: pointer;
 }
 
-.gallery-thumbs img:hover { transform: translateY(-4px); }
+.milestone-pics img:hover { transform: translateY(-4px) scale(1.05); }
 
 /* ---------- Community photo gallery (masonry) ---------- */
 .photo-masonry {
@@ -801,8 +799,8 @@ h3 { margin-bottom: 10px; font-size: 1.25rem; letter-spacing: -0.01em; }
     width: min(300px, 78vw);
   }
 
-  .gallery-thumbs { margin-left: 0; }
-  .milestone { grid-template-columns: 90px minmax(0, 1fr); gap: 12px; }
+  .milestone { grid-template-columns: 90px minmax(0, 1fr); gap: 10px 12px; }
+  .milestone-pics { grid-column: 1 / -1; justify-content: flex-start; }
 
   .section { padding: 64px 20px; }
 }
