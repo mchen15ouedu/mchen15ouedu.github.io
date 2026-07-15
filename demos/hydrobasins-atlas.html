@@ -17,6 +17,11 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Inter:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="../styles.css?v=20260706e" />
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+        integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
+  <script defer src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+          integrity="sha256-20nQCchB9co0qIjJ/2QOr3Sc/QQ4mydB8SzHTv7lTNo=" crossorigin=""></script>
+  <script defer src="https://cdnjs.cloudflare.com/ajax/libs/chroma-js/2.4.2/chroma.min.js"></script>
   <style>
     .demo-hero { padding-top: 28px; }
     .demo-meta { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 20px; }
@@ -58,6 +63,31 @@
     .method-card ul { margin: 0; padding-left: 18px; color: var(--muted); }
     .method-card li { margin: 6px 0; }
     .dl-row { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 16px; }
+    /* interactive maps */
+    .imap { margin-top: 16px; }
+    .imap-canvas {
+      height: 460px; border: 1px solid var(--line); border-radius: var(--radius);
+      overflow: hidden; background: #eef1f4;
+    }
+    .imap-note {
+      font-family: var(--mono); font-size: 0.78rem; color: var(--muted); margin: 8px 0 0;
+    }
+    .imap-legend { margin-top: 12px; max-width: 420px; }
+    .lg-bar { height: 12px; border-radius: 6px; border: 1px solid var(--line); }
+    .lg-labels {
+      display: flex; justify-content: space-between; gap: 8px;
+      font-size: 0.78rem; color: var(--muted); margin-top: 5px;
+    }
+    .lg-labels .lg-mid { color: var(--ink); }
+    .imap-info {
+      background: var(--panel); padding: 7px 11px; border: 1px solid var(--line-strong);
+      border-radius: 8px; font-size: 0.84rem; color: var(--text); box-shadow: var(--shadow);
+      line-height: 1.35; max-width: 220px;
+    }
+    .imap-info b { color: var(--ink); }
+    .leaflet-container { font-family: Inter, sans-serif; }
+    .imap-loading { display: flex; align-items: center; justify-content: center;
+      height: 100%; color: var(--muted); font-family: var(--mono); font-size: 0.85rem; }
   </style>
 </head>
 <body>
@@ -124,6 +154,11 @@
                alt="Global map of mean annual precipitation per HydroBASINS level-7 basin" loading="lazy" decoding="async" />
           <figcaption>Mean annual precipitation (mm/yr), per level-7 basin, water years 2000–2025.</figcaption>
         </figure>
+        <div class="imap">
+          <div class="imap-canvas" data-var="P" id="map-P"><div class="imap-loading">Loading interactive map…</div></div>
+          <div class="imap-legend" id="legend-P"></div>
+          <p class="imap-note">Interactive · level-6 basins · hover a basin for its value · scroll to zoom</p>
+        </div>
         <p class="source">
           <strong>Source:</strong> NASA <strong>GPM IMERG Final</strong> daily precipitation (0.1°) —
           Version 06 (2000–2020) spliced with Version 07 (2021–2025). Basin means are area-weighted over
@@ -144,6 +179,11 @@
                alt="Global map of mean annual surface temperature per basin" loading="lazy" decoding="async" />
           <figcaption>Mean annual surface temperature (°C), per level-7 basin, water years 2003–2026.</figcaption>
         </figure>
+        <div class="imap">
+          <div class="imap-canvas" data-var="T" id="map-T"><div class="imap-loading">Loading interactive map…</div></div>
+          <div class="imap-legend" id="legend-T"></div>
+          <p class="imap-note">Interactive · level-6 basins · hover a basin for its value · scroll to zoom</p>
+        </div>
         <p class="source">
           <strong>Source:</strong> NASA <strong>GLDAS-2.2</strong> Catchment Land Surface Model (CLSM),
           daily 0.25° (<code>AvgSurfT_tavg</code>), converted from kelvin to °C and area-weighted to
@@ -164,6 +204,11 @@
                alt="Global map of mean annual evapotranspiration per basin" loading="lazy" decoding="async" />
           <figcaption>Mean annual evapotranspiration (mm/yr), per level-7 basin, water years 2003–2026.</figcaption>
         </figure>
+        <div class="imap">
+          <div class="imap-canvas" data-var="ET" id="map-ET"><div class="imap-loading">Loading interactive map…</div></div>
+          <div class="imap-legend" id="legend-ET"></div>
+          <p class="imap-note">Interactive · level-6 basins · hover a basin for its value · scroll to zoom</p>
+        </div>
         <p class="source">
           <strong>Source:</strong> GLDAS-2.2 CLSM <code>Evap_tavg</code> [kg m⁻² s⁻¹], converted to
           mm/day (×86 400) then summed to an annual total. Physically impossible cell values
@@ -184,6 +229,11 @@
                alt="Global map of mean annual runoff per basin" loading="lazy" decoding="async" />
           <figcaption>Mean annual runoff (mm/yr) = surface + subsurface, per level-7 basin, water years 2003–2026.</figcaption>
         </figure>
+        <div class="imap">
+          <div class="imap-canvas" data-var="R" id="map-R"><div class="imap-loading">Loading interactive map…</div></div>
+          <div class="imap-legend" id="legend-R"></div>
+          <p class="imap-note">Interactive · level-6 basins · hover a basin for its value · scroll to zoom</p>
+        </div>
         <p class="source">
           <strong>Source:</strong> GLDAS-2.2 CLSM <code>Qs_tavg</code> (storm surface runoff) +
           <code>Qsb_tavg</code> (baseflow), each [kg m⁻² s⁻¹] → mm/day → annual sum, area-weighted per basin.
@@ -203,6 +253,11 @@
                alt="Global map of mean groundwater storage per basin" loading="lazy" decoding="async" />
           <figcaption>Mean groundwater storage (mm), per level-7 basin, water years 2003–2026.</figcaption>
         </figure>
+        <div class="imap">
+          <div class="imap-canvas" data-var="G" id="map-G"><div class="imap-loading">Loading interactive map…</div></div>
+          <div class="imap-legend" id="legend-G"></div>
+          <p class="imap-note">Interactive · level-6 basins · hover a basin for its value · scroll to zoom</p>
+        </div>
         <p class="source">
           <strong>Source:</strong> GLDAS-2.2 CLSM <code>GWS_tavg</code> [mm], area-weighted basin mean.
         </p>
@@ -223,6 +278,11 @@
                alt="Global map of stream gradient per basin, logarithmic scale" loading="lazy" decoding="async" />
           <figcaption>Stream gradient (m/m, log scale) = (DEM max − DEM min) ⁄ main-stem length, per level-7 basin.</figcaption>
         </figure>
+        <div class="imap">
+          <div class="imap-canvas" data-var="S" id="map-S"><div class="imap-loading">Loading interactive map…</div></div>
+          <div class="imap-legend" id="legend-S"></div>
+          <p class="imap-note">Interactive · level-6 basins · log color scale · hover a basin for its value · scroll to zoom</p>
+        </div>
         <p class="source">
           <strong>Source:</strong> <strong>HydroSHEDS</strong> void-filled DEM (3 arc-sec ≈ 90 m where
           available, else 15 arc-sec ≈ 500 m) for basin relief, and <strong>HydroRIVERS v1.0</strong> for
@@ -265,5 +325,88 @@
   </footer>
 
   <script src="../script.js?v=20260706"></script>
+  <script>
+  // Interactive per-variable choropleths (level-6 basins). Static PNGs above are level 7.
+  window.addEventListener('load', function () {
+    if (typeof L === 'undefined' || typeof chroma === 'undefined') return;
+    var NA = '#dcd5c6', CFG = null, GEO = null, scales = {};
+
+    function fmt(v, c) {
+      if (v === null || v === undefined || isNaN(v)) return 'no data';
+      if (c.units === 'm/m') return (+v).toPrecision(3) + ' m/m';
+      if (c.units === '°C') return (+v).toFixed(1) + ' °C';
+      return Math.round(+v) + ' ' + c.units;
+    }
+    function colorFor(v, key) {
+      var c = CFG.vars[key];
+      if (v === null || v === undefined || isNaN(v)) return NA;
+      if (c.type === 'log') {
+        var lo = c.domain[0], hi = c.domain[1], vv = Math.max(+v, lo);
+        var t = (Math.log(vv) - Math.log(lo)) / (Math.log(hi) - Math.log(lo));
+        return scales[key](Math.max(0, Math.min(1, t))).hex();
+      }
+      return scales[key](+v).hex();
+    }
+    function buildScales() {
+      CFG.order.forEach(function (k) {
+        var c = CFG.vars[k], lo = c.domain[0], hi = c.domain[1];
+        if (c.type === 'div') scales[k] = chroma.scale(c.ramp).domain([lo, lo / 2, 0, hi / 2, hi]).mode('lab');
+        else if (c.type === 'log') scales[k] = chroma.scale(c.ramp).mode('lab');
+        else scales[k] = chroma.scale(c.ramp).domain([lo, hi]).mode('lab');
+      });
+    }
+    function legend(el, key) {
+      if (!el) return;
+      var c = CFG.vars[key], lo = c.domain[0], hi = c.domain[1], pos;
+      if (c.type === 'div') pos = [lo, lo / 2, 0, hi / 2, hi].map(function (x) { return (x - lo) / (hi - lo) * 100; });
+      else pos = c.ramp.map(function (_, i) { return i / (c.ramp.length - 1) * 100; });
+      var stops = c.ramp.map(function (h, i) { return h + ' ' + pos[i].toFixed(1) + '%'; }).join(',');
+      var loL, hiL;
+      if (c.type === 'log') { loL = lo.toExponential(1); hiL = hi.toExponential(1); }
+      else if (c.units === '°C') { loL = Math.round(lo) + '°'; hiL = Math.round(hi) + '°'; }
+      else { loL = Math.round(lo); hiL = Math.round(hi); }
+      el.innerHTML = '<div class="lg-bar" style="background:linear-gradient(to right,' + stops + ')"></div>' +
+        '<div class="lg-labels"><span>' + loL + '</span><span class="lg-mid">' + c.label + ' (' + c.units + ')' +
+        (c.type === 'log' ? ' · log' : '') + '</span><span>' + hiL + '</span></div>';
+    }
+    function initMap(el) {
+      var key = el.getAttribute('data-var');
+      el.innerHTML = '';
+      var map = L.map(el, { preferCanvas: true, minZoom: 1, maxZoom: 8, worldCopyJump: true }).setView([25, 10], 1);
+      L.tileLayer('https://{s}.basemaps.cartocdn.com/light_nolabels/{z}/{x}/{y}{r}.png',
+        { subdomains: 'abcd', maxZoom: 8, attribution: '© OpenStreetMap contributors, © CARTO' }).addTo(map);
+      var info = L.control({ position: 'topright' });
+      info.onAdd = function () { this._d = L.DomUtil.create('div', 'imap-info'); this.update(); return this._d; };
+      info.update = function (p) {
+        var c = CFG.vars[key];
+        this._d.innerHTML = p
+          ? '<b>' + c.label + '</b><br>' + fmt(p[key], c) + '<br><span style="color:#6f6453">basin ' + p.id + '</span>'
+          : '<b>' + c.label + '</b><br><span style="color:#6f6453">hover a basin</span>';
+      };
+      info.addTo(map);
+      var layer = L.geoJSON(GEO, {
+        style: function (f) { return { fillColor: colorFor(f.properties[key], key), fillOpacity: 0.82, weight: 0, color: '#26211a' }; },
+        onEachFeature: function (f, lyr) {
+          lyr.on('mouseover', function () { lyr.setStyle({ weight: 0.8 }); if (lyr.bringToFront) lyr.bringToFront(); info.update(f.properties); });
+          lyr.on('mouseout', function () { layer.resetStyle(lyr); info.update(); });
+        }
+      }).addTo(map);
+      legend(document.getElementById('legend-' + key), key);
+    }
+    var io = new IntersectionObserver(function (entries) {
+      entries.forEach(function (e) { if (e.isIntersecting) { io.unobserve(e.target); initMap(e.target); } });
+    }, { rootMargin: '250px' });
+
+    Promise.all([
+      fetch('data/atlas_config.json').then(function (r) { return r.json(); }),
+      fetch('data/basins_L6.geojson').then(function (r) { return r.json(); })
+    ]).then(function (res) {
+      CFG = res[0]; GEO = res[1]; buildScales();
+      document.querySelectorAll('.imap-canvas').forEach(function (el) { io.observe(el); });
+    }).catch(function () {
+      document.querySelectorAll('.imap-loading').forEach(function (el) { el.textContent = 'Could not load interactive map data.'; });
+    });
+  });
+  </script>
 </body>
 </html>
