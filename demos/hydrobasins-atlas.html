@@ -157,8 +157,13 @@
         <div class="imap">
           <div class="imap-canvas" data-var="P" id="map-P"><div class="imap-loading">Loading interactive map…</div></div>
           <div class="imap-legend" id="legend-P"></div>
-          <p class="imap-note">Interactive · level-6 basins · hover a basin for its value · scroll to zoom</p>
+          <p class="imap-note">Interactive · level-7 basins · hover a basin for its value · scroll to zoom</p>
         </div>
+        <figure class="map">
+          <img src="../images/demos/hydrobasins/TS_P.png"
+               alt="Monthly precipitation time series for four example basins" loading="lazy" decoding="async" />
+          <figcaption>Example monthly time series — four basins in contrasting climates (Amazon · Ganges · Great Plains · Siberia).</figcaption>
+        </figure>
         <p class="source">
           <strong>Source:</strong> NASA <strong>GPM IMERG Final</strong> daily precipitation (0.1°) —
           Version 06 (2000–2020) spliced with Version 07 (2021–2025). Basin means are area-weighted over
@@ -182,8 +187,13 @@
         <div class="imap">
           <div class="imap-canvas" data-var="T" id="map-T"><div class="imap-loading">Loading interactive map…</div></div>
           <div class="imap-legend" id="legend-T"></div>
-          <p class="imap-note">Interactive · level-6 basins · hover a basin for its value · scroll to zoom</p>
+          <p class="imap-note">Interactive · level-7 basins · hover a basin for its value · scroll to zoom</p>
         </div>
+        <figure class="map">
+          <img src="../images/demos/hydrobasins/TS_T.png"
+               alt="Monthly surface temperature time series for four example basins" loading="lazy" decoding="async" />
+          <figcaption>Example monthly time series — four basins in contrasting climates (Amazon · Ganges · Great Plains · Siberia).</figcaption>
+        </figure>
         <p class="source">
           <strong>Source:</strong> NASA <strong>GLDAS-2.2</strong> Catchment Land Surface Model (CLSM),
           daily 0.25° (<code>AvgSurfT_tavg</code>), converted from kelvin to °C and area-weighted to
@@ -207,8 +217,13 @@
         <div class="imap">
           <div class="imap-canvas" data-var="ET" id="map-ET"><div class="imap-loading">Loading interactive map…</div></div>
           <div class="imap-legend" id="legend-ET"></div>
-          <p class="imap-note">Interactive · level-6 basins · hover a basin for its value · scroll to zoom</p>
+          <p class="imap-note">Interactive · level-7 basins · hover a basin for its value · scroll to zoom</p>
         </div>
+        <figure class="map">
+          <img src="../images/demos/hydrobasins/TS_ET.png"
+               alt="Monthly evapotranspiration time series for four example basins" loading="lazy" decoding="async" />
+          <figcaption>Example monthly time series — four basins in contrasting climates (Amazon · Ganges · Great Plains · Siberia).</figcaption>
+        </figure>
         <p class="source">
           <strong>Source:</strong> GLDAS-2.2 CLSM <code>Evap_tavg</code> [kg m⁻² s⁻¹], converted to
           mm/day (×86 400) then summed to an annual total. Physically impossible cell values
@@ -232,8 +247,13 @@
         <div class="imap">
           <div class="imap-canvas" data-var="R" id="map-R"><div class="imap-loading">Loading interactive map…</div></div>
           <div class="imap-legend" id="legend-R"></div>
-          <p class="imap-note">Interactive · level-6 basins · hover a basin for its value · scroll to zoom</p>
+          <p class="imap-note">Interactive · level-7 basins · hover a basin for its value · scroll to zoom</p>
         </div>
+        <figure class="map">
+          <img src="../images/demos/hydrobasins/TS_R.png"
+               alt="Monthly runoff time series for four example basins" loading="lazy" decoding="async" />
+          <figcaption>Example monthly time series — four basins in contrasting climates (Amazon · Ganges · Great Plains · Siberia).</figcaption>
+        </figure>
         <p class="source">
           <strong>Source:</strong> GLDAS-2.2 CLSM <code>Qs_tavg</code> (storm surface runoff) +
           <code>Qsb_tavg</code> (baseflow), each [kg m⁻² s⁻¹] → mm/day → annual sum, area-weighted per basin.
@@ -256,8 +276,13 @@
         <div class="imap">
           <div class="imap-canvas" data-var="G" id="map-G"><div class="imap-loading">Loading interactive map…</div></div>
           <div class="imap-legend" id="legend-G"></div>
-          <p class="imap-note">Interactive · level-6 basins · hover a basin for its value · scroll to zoom</p>
+          <p class="imap-note">Interactive · level-7 basins · hover a basin for its value · scroll to zoom</p>
         </div>
+        <figure class="map">
+          <img src="../images/demos/hydrobasins/TS_G.png"
+               alt="Monthly groundwater storage time series for four example basins" loading="lazy" decoding="async" />
+          <figcaption>Example monthly time series — four basins in contrasting climates (Amazon · Ganges · Great Plains · Siberia).</figcaption>
+        </figure>
         <p class="source">
           <strong>Source:</strong> GLDAS-2.2 CLSM <code>GWS_tavg</code> [mm], area-weighted basin mean.
         </p>
@@ -281,8 +306,9 @@
         <div class="imap">
           <div class="imap-canvas" data-var="S" id="map-S"><div class="imap-loading">Loading interactive map…</div></div>
           <div class="imap-legend" id="legend-S"></div>
-          <p class="imap-note">Interactive · level-6 basins · log color scale · hover a basin for its value · scroll to zoom</p>
+          <p class="imap-note">Interactive · level-7 basins · log color scale · hover a basin for its value · scroll to zoom</p>
         </div>
+        <p class="imap-note" style="margin-top:14px">Stream gradient is a static basin property — no time series.</p>
         <p class="source">
           <strong>Source:</strong> <strong>HydroSHEDS</strong> void-filled DEM (3 arc-sec ≈ 90 m where
           available, else 15 arc-sec ≈ 500 m) for basin relief, and <strong>HydroRIVERS v1.0</strong> for
@@ -326,7 +352,7 @@
 
   <script src="../script.js?v=20260706"></script>
   <script>
-  // Interactive per-variable choropleths (level-6 basins). Static PNGs above are level 7.
+  // Interactive per-variable choropleths (level-7 basins, matching the static maps above).
   window.addEventListener('load', function () {
     if (typeof L === 'undefined' || typeof chroma === 'undefined') return;
     var NA = '#dcd5c6', CFG = null, GEO = null, scales = {};
@@ -399,7 +425,7 @@
 
     Promise.all([
       fetch('data/atlas_config.json').then(function (r) { return r.json(); }),
-      fetch('data/basins_L6.geojson').then(function (r) { return r.json(); })
+      fetch('data/basins_L7.geojson').then(function (r) { return r.json(); })
     ]).then(function (res) {
       CFG = res[0]; GEO = res[1]; buildScales();
       document.querySelectorAll('.imap-canvas').forEach(function (el) { io.observe(el); });
