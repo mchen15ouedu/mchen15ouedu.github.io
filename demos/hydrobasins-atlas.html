@@ -213,14 +213,15 @@
         <h2>Stream gradient</h2>
         <p class="body-copy">
           A morphometric descriptor rather than a climate variable: the basin relief (highest minus
-          lowest elevation) divided by the length of its main stem. It is high in mountainous headwaters
-          and low across floodplains and cratonic lowlands, and it helps explain why some basins are
-          flashy while others are slow.
+          lowest elevation) divided by the length of its main stem, expressed dimensionlessly as m/m.
+          Because it spans several orders of magnitude, it is shown on a <strong>logarithmic scale</strong> —
+          high in mountainous headwaters (yellow) and low across floodplains and cratonic lowlands (dark),
+          which helps explain why some basins are flashy while others are slow.
         </p>
         <figure class="map">
-          <img src="../images/demos/hydrobasins/L7_gradient_m_per_km.png"
-               alt="Global map of stream gradient per basin" loading="lazy" decoding="async" />
-          <figcaption>Stream gradient (m/km) = (DEM max − DEM min) ⁄ main-stem length, per level-7 basin.</figcaption>
+          <img src="../images/demos/hydrobasins/L7_gradient_m_per_m.png"
+               alt="Global map of stream gradient per basin, logarithmic scale" loading="lazy" decoding="async" />
+          <figcaption>Stream gradient (m/m, log scale) = (DEM max − DEM min) ⁄ main-stem length, per level-7 basin.</figcaption>
         </figure>
         <p class="source">
           <strong>Source:</strong> <strong>HydroSHEDS</strong> void-filled DEM (3 arc-sec ≈ 90 m where
