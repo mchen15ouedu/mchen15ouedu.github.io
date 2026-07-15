@@ -1,0 +1,268 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Global Basin Water-Balance Atlas — Demo | Mengye Chen</title>
+  <meta name="description" content="A global HydroBASINS water-balance atlas: per-basin daily time series (2000-2026) of temperature, precipitation, evapotranspiration, runoff, and groundwater storage from GLDAS and GPM IMERG, plus a HydroSHEDS-derived stream gradient, shown as hydrological-year climatology maps. Built by Mengye Chen." />
+  <meta name="author" content="Mengye Chen" />
+  <meta property="og:title" content="Global Basin Water-Balance Atlas — Demo | Mengye Chen" />
+  <meta property="og:description" content="Per-basin hydro-climatology for 57,646 HydroBASINS: temperature, precipitation, ET, runoff, groundwater storage, and stream gradient." />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://mcspace.work/demos/hydrobasins-atlas.html" />
+  <meta property="og:image" content="https://mcspace.work/images/demos/hydrobasins/L7_P_mm_yr.png" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <link rel="icon" href="../favicon.svg" type="image/svg+xml" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Inter:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="../styles.css?v=20260706e" />
+  <style>
+    .demo-hero { padding-top: 28px; }
+    .demo-meta { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 20px; }
+    .demo-meta span {
+      font-family: var(--mono); font-size: 0.8rem; color: var(--muted);
+      border: 1px solid var(--line-strong); border-radius: 999px; padding: 6px 12px;
+    }
+    .var-block { margin-top: 46px; scroll-margin-top: 90px; }
+    .var-block h2 { margin-bottom: 6px; }
+    .var-kicker {
+      font-family: var(--mono); font-size: 0.78rem; letter-spacing: 0.04em;
+      text-transform: uppercase; color: var(--accent); margin: 0 0 4px;
+    }
+    figure.map {
+      margin: 18px 0 0; border: 1px solid var(--line); border-radius: var(--radius);
+      overflow: hidden; background: var(--panel); box-shadow: var(--shadow);
+    }
+    figure.map img { width: 100%; height: auto; display: block; }
+    figure.map figcaption {
+      font-size: 0.9rem; color: var(--muted); padding: 12px 16px;
+      border-top: 1px solid var(--line);
+    }
+    .source {
+      margin-top: 14px; font-size: 0.96rem; color: var(--muted);
+      border-left: 3px solid var(--accent); padding: 4px 0 4px 16px;
+    }
+    .source strong { color: var(--ink); font-weight: 600; }
+    .toc { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 22px; }
+    .toc a {
+      font-family: var(--mono); font-size: 0.82rem; text-decoration: none;
+      color: var(--muted); border: 1px solid var(--line); border-radius: 8px; padding: 6px 12px;
+    }
+    .toc a:hover { color: var(--ink); border-color: var(--accent); }
+    .method-card {
+      margin-top: 22px; background: var(--bg-tint); border: 1px solid var(--line);
+      border-radius: var(--radius); padding: 22px 26px;
+    }
+    .method-card h3 { margin: 0 0 10px; }
+    .method-card ul { margin: 0; padding-left: 18px; color: var(--muted); }
+    .method-card li { margin: 6px 0; }
+    .dl-row { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 16px; }
+  </style>
+</head>
+<body>
+  <header class="site-header">
+    <a class="brand" href="../index.html#top" aria-label="Mengye Chen homepage">
+      <span class="brand-mark">MC</span>
+      <span class="brand-text">Mengye Chen</span>
+    </a>
+    <button class="nav-toggle" aria-label="Toggle navigation" aria-expanded="false">☰</button>
+    <nav class="site-nav" aria-label="Main navigation">
+      <a href="../index.html#about">About</a>
+      <a href="../index.html#research">Research</a>
+      <a href="../index.html#projects">Projects</a>
+      <a href="../index.html#publications">Publications</a>
+      <a href="../index.html#contact">Contact</a>
+    </nav>
+  </header>
+
+  <main id="top">
+    <section class="section demo-hero">
+      <p class="eyebrow">Demo · Global Hydrology Dataset</p>
+      <h1>Global Basin Water-Balance Atlas</h1>
+      <div class="body-copy">
+        <p>
+          A basin-by-basin picture of the terrestrial water cycle. I aggregated two-plus decades of
+          daily satellite and land-surface model data onto the <strong>HydroBASINS</strong> watershed
+          polygons — every basin gets a daily time series of five water-balance variables, plus a
+          static channel <strong>stream gradient</strong> derived from a digital elevation model and
+          the global river network. The maps below show the <strong>hydrological-year climatology</strong>
+          (water year Oct 1 – Sep 30): fluxes summed to an annual total and then averaged across years,
+          state variables averaged directly.
+        </p>
+      </div>
+      <div class="demo-meta">
+        <span>57,646 basins · Level 7</span>
+        <span>16,397 basins · Level 6</span>
+        <span>Daily · 2000–2026</span>
+        <span>6 variables</span>
+        <span>Area-weighted zonal statistics</span>
+      </div>
+      <div class="toc" aria-label="Jump to a variable">
+        <a href="#precip">Precipitation</a>
+        <a href="#temp">Temperature</a>
+        <a href="#et">Evapotranspiration</a>
+        <a href="#runoff">Runoff</a>
+        <a href="#gws">Groundwater</a>
+        <a href="#gradient">Stream gradient</a>
+        <a href="#methods">Methods &amp; data</a>
+      </div>
+    </section>
+
+    <section class="section" style="padding-top:0">
+
+      <div class="var-block" id="precip">
+        <p class="var-kicker">Water input</p>
+        <h2>Precipitation</h2>
+        <p class="body-copy">
+          Mean annual precipitation traces the great wet belts — the tropics, monsoon Asia, and the
+          maritime mid-latitudes — against the deserts of the subtropics and continental interiors.
+          This is the primary forcing of every other variable on this page.
+        </p>
+        <figure class="map">
+          <img src="../images/demos/hydrobasins/L7_P_mm_yr.png"
+               alt="Global map of mean annual precipitation per HydroBASINS level-7 basin" loading="lazy" decoding="async" />
+          <figcaption>Mean annual precipitation (mm/yr), per level-7 basin, water years 2000–2025.</figcaption>
+        </figure>
+        <p class="source">
+          <strong>Source:</strong> NASA <strong>GPM IMERG Final</strong> daily precipitation (0.1°) —
+          Version 06 (2000–2020) spliced with Version 07 (2021–2025). Basin means are area-weighted over
+          the 0.1° grid. <em>Huffman et al., GPM IMERG, NASA GES DISC.</em>
+        </p>
+      </div>
+
+      <div class="var-block" id="temp">
+        <p class="var-kicker">Energy</p>
+        <h2>Surface temperature</h2>
+        <p class="body-copy">
+          Average surface skin temperature, the energy signal behind evaporative demand. The diverging
+          scale is centered on 0 °C, separating basins that spend the year above freezing from the cold
+          high-latitude and high-altitude watersheds.
+        </p>
+        <figure class="map">
+          <img src="../images/demos/hydrobasins/L7_T_degC.png"
+               alt="Global map of mean annual surface temperature per basin" loading="lazy" decoding="async" />
+          <figcaption>Mean annual surface temperature (°C), per level-7 basin, water years 2003–2026.</figcaption>
+        </figure>
+        <p class="source">
+          <strong>Source:</strong> NASA <strong>GLDAS-2.2</strong> Catchment Land Surface Model (CLSM),
+          daily 0.25° (<code>AvgSurfT_tavg</code>), converted from kelvin to °C and area-weighted to
+          each basin. <em>Rodell et al., GLDAS, NASA GES DISC.</em>
+        </p>
+      </div>
+
+      <div class="var-block" id="et">
+        <p class="var-kicker">Water output</p>
+        <h2>Evapotranspiration</h2>
+        <p class="body-copy">
+          The water returned to the atmosphere by evaporation and plant transpiration. ET is high where
+          both water and energy are abundant (humid tropics) and suppressed by either cold (poleward
+          basins) or dryness (deserts, where it is limited by supply rather than demand).
+        </p>
+        <figure class="map">
+          <img src="../images/demos/hydrobasins/L7_ET_mm_yr.png"
+               alt="Global map of mean annual evapotranspiration per basin" loading="lazy" decoding="async" />
+          <figcaption>Mean annual evapotranspiration (mm/yr), per level-7 basin, water years 2003–2026.</figcaption>
+        </figure>
+        <p class="source">
+          <strong>Source:</strong> GLDAS-2.2 CLSM <code>Evap_tavg</code> [kg m⁻² s⁻¹], converted to
+          mm/day (×86 400) then summed to an annual total. Physically impossible cell values
+          (&lt; −1 mm/day condensation) were screened as artifacts before aggregation.
+        </p>
+      </div>
+
+      <div class="var-block" id="runoff">
+        <p class="var-kicker">Water output</p>
+        <h2>Runoff</h2>
+        <p class="body-copy">
+          Total runoff — surface storm runoff plus subsurface baseflow — is the water that leaves the
+          basin as streamflow. It concentrates in wet, steep, and snowmelt-fed regions and effectively
+          vanishes across arid interiors.
+        </p>
+        <figure class="map">
+          <img src="../images/demos/hydrobasins/L7_runoff_mm_yr.png"
+               alt="Global map of mean annual runoff per basin" loading="lazy" decoding="async" />
+          <figcaption>Mean annual runoff (mm/yr) = surface + subsurface, per level-7 basin, water years 2003–2026.</figcaption>
+        </figure>
+        <p class="source">
+          <strong>Source:</strong> GLDAS-2.2 CLSM <code>Qs_tavg</code> (storm surface runoff) +
+          <code>Qsb_tavg</code> (baseflow), each [kg m⁻² s⁻¹] → mm/day → annual sum, area-weighted per basin.
+        </p>
+      </div>
+
+      <div class="var-block" id="gws">
+        <p class="var-kicker">Storage</p>
+        <h2>Groundwater storage</h2>
+        <p class="body-copy">
+          The modeled groundwater held in each basin — a state variable, so it is averaged rather than
+          summed. It reflects the long-term balance of recharge and drainage and the water-holding
+          capacity of the landscape.
+        </p>
+        <figure class="map">
+          <img src="../images/demos/hydrobasins/L7_GWS_mm.png"
+               alt="Global map of mean groundwater storage per basin" loading="lazy" decoding="async" />
+          <figcaption>Mean groundwater storage (mm), per level-7 basin, water years 2003–2026.</figcaption>
+        </figure>
+        <p class="source">
+          <strong>Source:</strong> GLDAS-2.2 CLSM <code>GWS_tavg</code> [mm], area-weighted basin mean.
+        </p>
+      </div>
+
+      <div class="var-block" id="gradient">
+        <p class="var-kicker">Terrain (static)</p>
+        <h2>Stream gradient</h2>
+        <p class="body-copy">
+          A morphometric descriptor rather than a climate variable: the basin relief (highest minus
+          lowest elevation) divided by the length of its main stem. It is high in mountainous headwaters
+          and low across floodplains and cratonic lowlands, and it helps explain why some basins are
+          flashy while others are slow.
+        </p>
+        <figure class="map">
+          <img src="../images/demos/hydrobasins/L7_gradient_m_per_km.png"
+               alt="Global map of stream gradient per basin" loading="lazy" decoding="async" />
+          <figcaption>Stream gradient (m/km) = (DEM max − DEM min) ⁄ main-stem length, per level-7 basin.</figcaption>
+        </figure>
+        <p class="source">
+          <strong>Source:</strong> <strong>HydroSHEDS</strong> void-filled DEM (3 arc-sec ≈ 90 m where
+          available, else 15 arc-sec ≈ 500 m) for basin relief, and <strong>HydroRIVERS v1.0</strong> for
+          the main stem — traced from the outlet upstream, following the maximum upstream-drainage-area
+          reach at each confluence. <em>Lehner &amp; Grill (2013), HydroSHEDS.</em>
+        </p>
+      </div>
+
+      <div class="var-block" id="methods">
+        <div class="method-card">
+          <h3>Methods &amp; data provenance</h3>
+          <ul>
+            <li><strong>Basins:</strong> HydroBASINS (Pfafstetter) levels 7 (57,646) and 6 (16,397), global.</li>
+            <li><strong>Zonal statistics:</strong> exact fractional cell–basin overlap-area weights, computed once
+                per grid; each daily field is an area-weighted basin average. Fluxes use Σ(value·cell area) ⁄ basin area.</li>
+            <li><strong>Hydrological year:</strong> Oct 1 – Sep 30. Fluxes (P, ET, runoff) summed to an annual total
+                then averaged over water years; states (temperature, groundwater) averaged. A water year counts for a
+                basin only when ≥ 350 valid days are present.</li>
+            <li><strong>Temporal coverage:</strong> precipitation 2000–2025 (IMERG); GLDAS variables 2003–2026.</li>
+            <li><strong>Quality control:</strong> negative ET below −1 mm/day (non-physical) and other out-of-range
+                source cells are screened before aggregation; a raw, unscreened copy is retained.</li>
+            <li><strong>Data products:</strong> NASA GES DISC (GLDAS-2.2 CLSM, GPM IMERG) and HydroSHEDS /
+                HydroRIVERS / HydroBASINS (WWF &amp; McGill University).</li>
+          </ul>
+          <div class="dl-row">
+            <a class="button secondary" href="data/summary_level7.csv" download>Download level-7 summary (CSV)</a>
+            <a class="button secondary" href="data/summary_level6.csv" download>Download level-6 summary (CSV)</a>
+          </div>
+          <p class="embed-note" style="color:var(--muted);font-size:0.88rem;margin-top:14px;">
+            Maps show level-7 basins. The full daily time series (NetCDF) is large; contact me for access.
+          </p>
+        </div>
+      </div>
+
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <p>© <span id="year"></span> Mengye Chen. Built for <a href="https://mcspace.work">mcspace.work</a>.</p>
+  </footer>
+
+  <script src="../script.js?v=20260706"></script>
+</body>
+</html>
