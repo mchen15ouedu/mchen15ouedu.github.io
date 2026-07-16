@@ -3,11 +3,11 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Global Basin Water-Balance Atlas — Demo | Mengye Chen</title>
-  <meta name="description" content="A global HydroBASINS water-balance atlas: per-basin daily time series (2000-2026) of temperature, precipitation, evapotranspiration, runoff, and groundwater storage from GLDAS and GPM IMERG, plus a HydroSHEDS-derived stream gradient, shown as hydrological-year climatology maps. Built by Mengye Chen." />
+  <title>Hydrological Zones — Demo | Mengye Chen</title>
+  <meta name="description" content="Global hydrological zones from per-basin climatology (2000-2026) of temperature, precipitation, evapotranspiration, runoff, and groundwater storage (GLDAS, GPM IMERG) plus HydroSHEDS/HydroRIVERS stream gradient, on HydroBASINS watersheds. Köppen/UNEP/Budyko-grounded zoning thresholds. Built by Mengye Chen." />
   <meta name="author" content="Mengye Chen" />
-  <meta property="og:title" content="Global Basin Water-Balance Atlas — Demo | Mengye Chen" />
-  <meta property="og:description" content="Per-basin hydro-climatology for 57,646 HydroBASINS: temperature, precipitation, ET, runoff, groundwater storage, and stream gradient." />
+  <meta property="og:title" content="Hydrological Zones — Demo | Mengye Chen" />
+  <meta property="og:description" content="Global per-basin hydrological zoning for 57,646 HydroBASINS from temperature, precipitation, ET, runoff, groundwater storage and stream gradient." />
   <meta property="og:type" content="website" />
   <meta property="og:url" content="https://mcspace.work/demos/hydrobasins-atlas.html" />
   <meta property="og:image" content="https://mcspace.work/images/demos/hydrobasins/L7_P_mm_yr.png" />
@@ -27,6 +27,16 @@
       font-family: var(--mono); font-size: 0.8rem; color: var(--muted);
       border: 1px solid var(--line-strong); border-radius: 999px; padding: 6px 12px;
     }
+    .datasets { margin-top: 26px; }
+    .datasets h2 { font-size: 1.15rem; margin: 0 0 4px; }
+    .dataset-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+      gap: 12px; margin-top: 14px; }
+    .dataset-card { border: 1px solid var(--line); border-radius: var(--radius);
+      background: var(--panel); padding: 14px 16px; box-shadow: var(--shadow); }
+    .dataset-card .tag { font-family: var(--mono); font-size: 0.72rem; letter-spacing: 0.03em;
+      text-transform: uppercase; color: var(--accent); }
+    .dataset-card h3 { margin: 3px 0 5px; font-size: 1rem; }
+    .dataset-card p { margin: 0; font-size: 0.88rem; color: var(--muted); line-height: 1.5; }
     .var-block { margin-top: 46px; scroll-margin-top: 90px; }
     .var-block h2 { margin-bottom: 6px; }
     .var-kicker {
@@ -86,6 +96,23 @@
     .leaflet-container { font-family: Inter, sans-serif; }
     .imap-loading { display: flex; align-items: center; justify-content: center;
       height: 100%; color: var(--muted); font-family: var(--mono); font-size: 0.85rem; }
+    /* zoning thresholds table */
+    .zone-table-wrap { margin-top: 18px; overflow-x: auto; border: 1px solid var(--line);
+      border-radius: var(--radius); background: var(--panel); box-shadow: var(--shadow); }
+    table.zone-table { border-collapse: collapse; width: 100%; font-size: 0.92rem; }
+    table.zone-table th, table.zone-table td {
+      text-align: left; padding: 10px 14px; border-bottom: 1px solid var(--line); vertical-align: top; }
+    table.zone-table thead th { font-family: var(--mono); font-size: 0.74rem; letter-spacing: 0.04em;
+      text-transform: uppercase; color: var(--muted); background: var(--bg-tint); white-space: nowrap; }
+    table.zone-table tbody tr:last-child td { border-bottom: none; }
+    table.zone-table td.axis { font-weight: 600; color: var(--ink); white-space: nowrap; }
+    table.zone-table td.brk { font-family: var(--mono); color: var(--ink); white-space: nowrap; }
+    .zone-note { margin-top: 14px; font-size: 0.94rem; color: var(--muted); }
+    .zone-note strong { color: var(--ink); font-weight: 600; }
+    .zone-note code, table.zone-table code { font-family: var(--mono); font-size: 0.85em;
+      background: var(--bg-tint); padding: 1px 5px; border-radius: 5px; color: var(--ink); }
+    .zone-note ul { margin: 8px 0 0; padding-left: 18px; }
+    .zone-note li { margin: 5px 0; }
   </style>
 </head>
 <body>
@@ -106,19 +133,56 @@
 
   <main id="top">
     <section class="section demo-hero">
-      <p class="eyebrow">Demo · Global Hydrology Dataset</p>
-      <h1>Global Basin Water-Balance Atlas</h1>
+      <p class="eyebrow">Demo · Global Hydrological Zoning</p>
+      <h1>Hydrological Zones</h1>
       <div class="body-copy">
         <p>
-          A basin-by-basin picture of the terrestrial water cycle. I aggregated two-plus decades of
-          daily satellite and land-surface model data onto the <strong>HydroBASINS</strong> watershed
-          polygons — every basin gets a daily time series of five water-balance variables, plus a
-          static channel <strong>stream gradient</strong> derived from a digital elevation model and
-          the global river network. The maps below show the <strong>hydrological-year climatology</strong>
-          (water year Oct 1 – Sep 30): fluxes summed to an annual total and then averaged across years,
-          state variables averaged directly.
+          A data-driven map of how the world's watersheds behave hydrologically. I aggregated two-plus
+          decades of daily satellite and land-surface model data onto the <strong>HydroBASINS</strong>
+          watershed polygons — every basin gets a daily time series of five water-balance variables plus
+          a static channel <strong>stream gradient</strong> — and from that per-basin
+          <strong>hydrological-year climatology</strong> (water year Oct 1 – Sep 30) I derive a set of
+          <strong>hydrological zones</strong>. The variable maps below are the ingredients; the
+          <a href="#zoning">zoning thresholds</a> at the bottom turn them into Köppen-style classes.
         </p>
       </div>
+
+      <div class="datasets">
+        <h2>Datasets used</h2>
+        <div class="dataset-grid">
+          <div class="dataset-card">
+            <span class="tag">Watersheds</span>
+            <h3>HydroBASINS</h3>
+            <p>Pfafstetter nested watershed polygons, levels 6 (16,397) and 7 (57,646), global — the zoning
+               units. WWF &amp; McGill University; Lehner &amp; Grill (2013).</p>
+          </div>
+          <div class="dataset-card">
+            <span class="tag">Precipitation</span>
+            <h3>GPM IMERG Final</h3>
+            <p>Daily precipitation at 0.1°, Version 06 (2000–2020) spliced with Version 07 (2021–2025).
+               Reliable to |lat| 60–70°. NASA GES DISC; Huffman et al.</p>
+          </div>
+          <div class="dataset-card">
+            <span class="tag">Land surface</span>
+            <h3>GLDAS-2.2 CLSM</h3>
+            <p>Daily land-surface model at 0.25° — surface temperature, evapotranspiration, surface +
+               subsurface runoff, and groundwater storage (2003–2026). NASA GES DISC.</p>
+          </div>
+          <div class="dataset-card">
+            <span class="tag">Elevation</span>
+            <h3>HydroSHEDS DEM</h3>
+            <p>Void-filled digital elevation (3 arc-sec ≈ 90 m where available, else 15 arc-sec ≈ 500 m) —
+               basin relief for the stream gradient. HydroSHEDS.</p>
+          </div>
+          <div class="dataset-card">
+            <span class="tag">River network</span>
+            <h3>HydroRIVERS v1.0</h3>
+            <p>Global vectorised river network — the basin main stem is traced from the outlet upstream by
+               maximum upstream drainage area, giving the gradient's length term. WWF &amp; McGill.</p>
+          </div>
+        </div>
+      </div>
+
       <div class="demo-meta">
         <span>57,646 basins · Level 7</span>
         <span>16,397 basins · Level 6</span>
@@ -133,6 +197,7 @@
         <a href="#runoff">Runoff</a>
         <a href="#gws">Groundwater</a>
         <a href="#gradient">Stream gradient</a>
+        <a href="#zoning">Zoning thresholds</a>
         <a href="#methods">Methods &amp; data</a>
       </div>
     </section>
@@ -313,6 +378,55 @@
           the main stem — traced from the outlet upstream, following the maximum upstream-drainage-area
           reach at each confluence. <em>Lehner &amp; Grill (2013), HydroSHEDS.</em>
         </p>
+      </div>
+
+      <div class="var-block" id="zoning">
+        <p class="var-kicker">Classification</p>
+        <h2>Hydrological zoning thresholds</h2>
+        <p class="body-copy">
+          To turn the continuous variables above into <strong>hydrological zones</strong>, each is binned by
+          a small set of thresholds chosen for hydrological meaning and grounded in the climate-classification
+          literature — the Köppen-Geiger backbone (temperature × precipitation), UNEP/FAO aridity bands, and
+          the Budyko energy-vs-water framework. Crossing the temperature and precipitation axes reproduces the
+          familiar Köppen A/B/C/D/E families; the runoff, evapotranspiration, terrain, frost and groundwater
+          axes add the hydrology Köppen omits.
+        </p>
+        <div class="zone-table-wrap">
+          <table class="zone-table">
+            <thead>
+              <tr><th>Axis</th><th>Variable</th><th>Thresholds</th><th>Classes (low → high)</th><th>Basis</th></tr>
+            </thead>
+            <tbody>
+              <tr><td class="axis">Thermal</td><td>Mean annual temperature</td><td class="brk">0, 10, 18 °C</td>
+                  <td>Polar/Boreal · Cold · Temperate · Tropical</td><td>Köppen A/C/D/E</td></tr>
+              <tr><td class="axis">Aridity</td><td>Annual precipitation</td><td class="brk">250, 600, 1200 mm/yr</td>
+                  <td>Arid · Semi-arid · Sub-humid · Per-humid</td><td>UNEP/FAO aridity</td></tr>
+              <tr><td class="axis">Yield</td><td>Runoff ratio (Q/P)</td><td class="brk">0.1, 0.3, 0.6</td>
+                  <td>Very-low · Low · Moderate · High</td><td>water yield</td></tr>
+              <tr><td class="axis">Limit</td><td>Evaporative index (ET/P)</td><td class="brk">0.5, 0.9</td>
+                  <td>Energy-limited · Intermediate · Water-limited</td><td>Budyko</td></tr>
+              <tr><td class="axis">Terrain</td><td>Stream gradient</td><td class="brk">2, 10 m/km</td>
+                  <td>Lowland · Upland · Mountain</td><td>relief</td></tr>
+              <tr><td class="axis">Frost</td><td>Frost days/yr (T&nbsp;&lt;&nbsp;0&nbsp;°C)</td><td class="brk">1, 30, 150</td>
+                  <td>Frost-free · Seasonal-light · Seasonal-strong · Persistent</td><td>snow regime</td></tr>
+              <tr><td class="axis">Storage</td><td>Groundwater seasonal amplitude</td><td class="brk">30, 100, 250 mm</td>
+                  <td>Buffered · Seasonal · Strongly-seasonal · Extreme</td><td>storage buffering</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="zone-note">
+          <strong>How the axes combine.</strong>
+          <ul>
+            <li><strong>Köppen backbone letter</strong> (merges temperature × precipitation): A&nbsp;Tropical,
+                C&nbsp;Temperate, D&nbsp;Cold, E&nbsp;Polar/Boreal — with <strong>B&nbsp;Arid overriding</strong>
+                the thermal letter wherever a basin is arid.</li>
+            <li><strong>Merged code</strong> concatenates one symbol per axis —
+                <code>[backbone][yield][limit][storage][terrain](frost)</code> — e.g. <code>DlwZuF</code> =
+                cold semi-arid, low-yield, water-limited, strongly-seasonal storage, upland, persistent frost.</li>
+            <li><strong>Coverage:</strong> precipitation from IMERG is unreliable over polar ice, so basins
+                poleward of <strong>|lat| 70°</strong> are masked out of the zoning.</li>
+          </ul>
+        </div>
       </div>
 
       <div class="var-block" id="methods">
