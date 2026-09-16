@@ -77,6 +77,13 @@
       height: 460px; border: 1px solid var(--line); border-radius: var(--radius);
       overflow: hidden; background: #eef1f4;
     }
+    /* once Leaflet takes over, match the Esri light-gray ocean so the edges of the single
+       (non-repeating) world blend into the container instead of showing a different gray */
+    .imap-canvas.leaflet-container { background: #d0cfd3; }
+    /* Leaflet 1.9 blends tiles with mix-blend-mode: plus-lighter; at the fitted (fractional)
+       zoom the scaled tile edges overlap and add up to a bright line along each tile boundary */
+    .imap-canvas .leaflet-tile { mix-blend-mode: normal; }
+    @media (max-width: 640px) { .imap-canvas { height: 340px; } }
     .imap-note {
       font-family: var(--mono); font-size: 0.78rem; color: var(--muted); margin: 8px 0 0;
     }
@@ -468,6 +475,9 @@
   window.addEventListener('load', function () {
     if (typeof L === 'undefined' || typeof chroma === 'undefined') return;
     var NA = '#dcd5c6', CFG = null, GEO = null, scales = {};
+    // Initial view: the basins span lat -56..84; fit the populated band and leave the
+    // Arctic islands reachable by panning.
+    var WORLD = [[-56, -180], [78, 180]];
 
     function fmt(v, c) {
       if (v === null || v === undefined || isNaN(v)) return 'no data';
@@ -510,9 +520,19 @@
     function initMap(el) {
       var key = el.getAttribute('data-var');
       el.innerHTML = '';
-      var map = L.map(el, { preferCanvas: true, minZoom: 1, maxZoom: 8, worldCopyJump: true }).setView([25, 10], 1);
-      L.tileLayer('https://{s}.basemaps.cartocdn.com/light_nolabels/{z}/{x}/{y}{r}.png',
-        { subdomains: 'abcd', maxZoom: 8, attribution: '© OpenStreetMap contributors, © CARTO' }).addTo(map);
+      // One world only: the basins are drawn once, so the basemap must not repeat beside them.
+      // The view is fitted to the data (fractional zoom, 0.1 steps) and that zoom becomes the floor.
+      var map = L.map(el, {
+        preferCanvas: true, zoomSnap: 0.1, minZoom: 0, maxZoom: 8,
+        maxBounds: [[-85, -180], [85, 180]], maxBoundsViscosity: 1.0
+      });
+      // Esri Light Gray Canvas needs no API key. CARTO's basemaps now require one and
+      // otherwise serve tiles stamped "API KEY REQUIRED", which is what broke this map.
+      L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Light_Gray_Base/MapServer/tile/{z}/{y}/{x}',
+        { maxZoom: 8, maxNativeZoom: 16, noWrap: true, bounds: [[-85.0511, -180], [85.0511, 180]],
+          attribution: 'Tiles © Esri — Esri, HERE, Garmin, © OpenStreetMap contributors' }).addTo(map);
+      map.fitBounds(WORLD);
+      map.setMinZoom(map.getZoom());
       var info = L.control({ position: 'topright' });
       info.onAdd = function () { this._d = L.DomUtil.create('div', 'imap-info'); this.update(); return this._d; };
       info.update = function (p) {
@@ -523,9 +543,15 @@
       };
       info.addTo(map);
       var layer = L.geoJSON(GEO, {
-        style: function (f) { return { fillColor: colorFor(f.properties[key], key), fillOpacity: 0.82, weight: 0, color: '#26211a' }; },
+        // smoothFactor 0: Leaflet's default simplification collapses most level-7 basins to nothing
+        // at the world zoom, which left the choropleth speckled with gaps. The 1 px stroke in the
+        // basin's own colour closes the hairline anti-aliasing seams between neighbours.
+        style: function (f) {
+          var c = colorFor(f.properties[key], key);
+          return { fillColor: c, fillOpacity: 0.82, color: c, opacity: 0.82, weight: 1, smoothFactor: 0 };
+        },
         onEachFeature: function (f, lyr) {
-          lyr.on('mouseover', function () { lyr.setStyle({ weight: 0.8 }); if (lyr.bringToFront) lyr.bringToFront(); info.update(f.properties); });
+          lyr.on('mouseover', function () { lyr.setStyle({ color: '#26211a', opacity: 1, weight: 1.2 }); if (lyr.bringToFront) lyr.bringToFront(); info.update(f.properties); });
           lyr.on('mouseout', function () { layer.resetStyle(lyr); info.update(); });
         }
       }).addTo(map);
