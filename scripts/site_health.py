@@ -245,8 +245,11 @@ def browser_checks(rep: Report) -> None:
         rep.add(False, "browser", "playwright is not installed: pip install playwright && python -m playwright install chromium")
         return
 
-    def ignored(url: str) -> bool:
-        return url.endswith("/favicon.ico") or any(h in url for h in IGNORED_FAILURE_HOSTS)
+    def ignored(url: str, failure: str | None) -> bool:
+        # Leaflet cancels tile loads when the zoom moves on; the browser reports those as
+        # net::ERR_ABORTED, which is not a server failure
+        return (url.endswith("/favicon.ico") or any(h in url for h in IGNORED_FAILURE_HOSTS)
+                or "ERR_ABORTED" in str(failure or ""))
 
     with sync_playwright() as p:
         browser = p.chromium.launch()
@@ -257,7 +260,7 @@ def browser_checks(rep: Report) -> None:
             failed: list[str] = []
             page.on("pageerror", lambda e, errors=errors: errors.append(str(e)))
             page.on("console", lambda m, errors=errors: errors.append(m.text) if m.type == "error" else None)
-            page.on("requestfailed", lambda r, failed=failed: None if ignored(r.url) else failed.append(f"{r.url} ({r.failure})"))
+            page.on("requestfailed", lambda r, failed=failed: None if ignored(r.url, r.failure) else failed.append(f"{r.url} ({r.failure})"))
             url = SITE + path
             try:
                 page.goto(url, wait_until="load", timeout=120_000)
