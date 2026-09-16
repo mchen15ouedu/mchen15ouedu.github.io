@@ -80,9 +80,10 @@
     /* once Leaflet takes over, match the Esri light-gray ocean so the edges of the single
        (non-repeating) world blend into the container instead of showing a different gray */
     .imap-canvas.leaflet-container { background: #d0cfd3; }
-    /* Leaflet 1.9 blends tiles with mix-blend-mode: plus-lighter; at the fitted (fractional)
-       zoom the scaled tile edges overlap and add up to a bright line along each tile boundary */
-    .imap-canvas .leaflet-tile { mix-blend-mode: normal; }
+    /* Leaflet 1.9 sets mix-blend-mode: plus-lighter on each tile element (inline, hence
+       !important); at the fitted fractional zoom the scaled tile edges overlap and add up to a
+       bright line along every tile boundary */
+    .imap-canvas .leaflet-tile { mix-blend-mode: normal !important; }
     @media (max-width: 640px) { .imap-canvas { height: 340px; } }
     .imap-note {
       font-family: var(--mono); font-size: 0.78rem; color: var(--muted); margin: 8px 0 0;
