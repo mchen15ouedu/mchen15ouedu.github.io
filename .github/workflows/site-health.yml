@@ -1,0 +1,65 @@
+name: Site health
+
+# Checks that mcspace.work is up and that its interactive maps still work:
+# pages, CDN assets, data files, basemap tiles (plain HTTP), plus a headless
+# Chromium smoke test of the Leaflet maps. Runs daily, after every GitHub
+# Pages deploy, and on demand. A failure opens (or comments on) an issue
+# labelled "site-health"; GitHub also emails the failed-run notification.
+
+on:
+  schedule:
+    - cron: "23 13 * * *"          # daily at 13:23 UTC (08:23 US Central during DST)
+  workflow_run:
+    workflows: ["pages-build-deployment"]
+    types: [completed]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  issues: write
+
+jobs:
+  http:
+    name: Pages, assets, data, basemap tiles
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: python scripts/site_health.py
+
+  browser:
+    name: Interactive maps render (headless Chromium)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: pip install playwright && python -m playwright install --with-deps chromium
+      - run: python scripts/site_health.py --browser
+
+  notify:
+    name: Open an issue on failure
+    needs: [http, browser]
+    if: failure()
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/github-script@v7
+        with:
+          script: |
+            const { owner, repo } = context.repo;
+            const runUrl = `${context.serverUrl}/${owner}/${repo}/actions/runs/${context.runId}`;
+            const open = await github.rest.issues.listForRepo({ owner, repo, state: "open", labels: "site-health" });
+            if (open.data.length) {
+              await github.rest.issues.createComment({
+                owner, repo, issue_number: open.data[0].number,
+                body: `Site health check failed again: ${runUrl}`,
+              });
+            } else {
+              await github.rest.issues.create({
+                owner, repo, title: "Site health check failed", labels: ["site-health"],
+                body: `The site health check failed. See the run log for which check broke:\n\n${runUrl}`,
+              });
+            }
