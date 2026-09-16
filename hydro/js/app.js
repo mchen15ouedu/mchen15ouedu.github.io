@@ -77,8 +77,10 @@ function initMap() {
     { attribution: "Imagery © Esri", maxZoom: 19 });
   const topo = L.tileLayer("https://server.arcgisonline.com/ArcGIS/rest/services/World_Topo_Map/MapServer/tile/{z}/{y}/{x}",
     { attribution: "© Esri", maxZoom: 19 });
-  const dark = L.tileLayer("https://{s}.basemaps.cartocdn.com/dark_nolabels/{z}/{x}/{y}{r}.png",
-    { attribution: "© OpenStreetMap © CARTO", subdomains: "abcd", maxZoom: 19 });
+  // Esri Dark Gray Canvas needs no API key; CARTO basemaps now require one and otherwise
+  // serve tiles stamped "API KEY REQUIRED".
+  const dark = L.tileLayer("https://server.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Dark_Gray_Base/MapServer/tile/{z}/{y}/{x}",
+    { attribution: "© Esri, HERE, Garmin, © OpenStreetMap contributors", maxZoom: 19, maxNativeZoom: 16 });
   dark.addTo(map);
   // basin polygons (shown when the basin tool is active)
   const HL = META.huc_level || "HUC8";
