@@ -461,6 +461,18 @@ h3 { margin-bottom: 10px; font-size: 1.25rem; letter-spacing: -0.01em; }
 
 .project:hover .project-figure img { transform: scale(1.03); }
 
+/* Featured project with a looping clip in place of the figure */
+.project-figure:has(video) { position: relative; }
+.project-figure video {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  background: #14171c;
+}
+
 .project-body { padding: 26px 28px 28px; display: flex; flex-direction: column; flex: 1; }
 
 .project-kicker,

@@ -37,6 +37,31 @@ if (navDd && navDdBtn) {
   });
 }
 
+// Muted clips marked data-autoplay play only while on screen (and not at all under reduced motion).
+const clips = document.querySelectorAll("video[data-autoplay]");
+if (clips.length) {
+  const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  if (reduce || !("IntersectionObserver" in window)) {
+    clips.forEach((v) => { v.removeAttribute("autoplay"); v.pause(); v.controls = true; });
+  } else {
+    const clipObserver = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          const v = entry.target;
+          if (entry.isIntersecting) {
+            const p = v.play();
+            if (p && p.catch) p.catch(() => { v.controls = true; });
+          } else {
+            v.pause();
+          }
+        });
+      },
+      { threshold: 0.35 }
+    );
+    clips.forEach((v) => clipObserver.observe(v));
+  }
+}
+
 // Scroll-reveal animations (respects reduced-motion)
 const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 const revealTargets = document.querySelectorAll(

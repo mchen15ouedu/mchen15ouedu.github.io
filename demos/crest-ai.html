@@ -10,6 +10,8 @@
   <meta property="og:description" content="Chat-driven CREST/EF5 flash-flood simulations with a live map: 2-D streamflow animation, live hydrographs, and AI parameter calibration." />
   <meta property="og:type" content="website" />
   <meta property="og:url" content="https://mcspace.work/demos/crest-ai.html" />
+  <meta property="og:image" content="https://mcspace.work/images/demos/crest-ai/montage.jpg" />
+  <meta name="twitter:card" content="summary_large_image" />
   <link rel="icon" href="../favicon.svg" type="image/svg+xml" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -29,6 +31,20 @@
     .embed-wrap iframe { width: 100%; height: 920px; border: 0; display: block; }
     .embed-note { color: var(--muted); font-size: 0.92rem; margin-top: 14px; }
     @media (max-width: 640px) { .embed-wrap iframe { height: 1100px; } }
+    /* clips */
+    .clips-section { padding-top: 10px; }
+    .clips-section h2 { margin: 0 0 8px; }
+    .clips-intro { margin: 0 0 22px; max-width: 760px; }
+    .clip-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 18px; }
+    .clip {
+      margin: 0; border: 1px solid var(--line); border-radius: var(--radius); overflow: hidden;
+      background: var(--panel); box-shadow: var(--shadow); display: flex; flex-direction: column;
+    }
+    .clip video { width: 100%; aspect-ratio: 16 / 9; display: block; background: #14171c; }
+    .clip figcaption { padding: 12px 14px 14px; font-size: 0.9rem; line-height: 1.5; color: var(--muted); }
+    .clip figcaption strong { color: var(--ink); font-weight: 600; }
+    @media (max-width: 980px) { .clip-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+    @media (max-width: 600px) { .clip-grid { grid-template-columns: 1fr; } }
   </style>
 </head>
 <body>
@@ -67,7 +83,60 @@
       </div>
     </section>
 
-    <section class="section" style="padding-top: 0;">
+    <section class="section clips-section" id="in-action" aria-labelledby="clips-title">
+      <p class="eyebrow">In action</p>
+      <h2 id="clips-title">Watch the dashboard work</h2>
+      <p class="body-copy clips-intro">
+        Short, silent clips from recorded sessions. They play while in view; use the controls to
+        pause, scrub or go full screen, or <a href="#live-demo">skip to the live demo</a>.
+      </p>
+      <div class="clip-grid">
+        <figure class="clip">
+          <video muted loop playsinline preload="metadata" controls data-autoplay
+                 poster="../images/demos/crest-ai/ask.jpg" aria-label="Chat request for the 2025 St. Louis floods: the map zooms to the gauges near St. Louis and the assistant summarises the event">
+            <source src="../videos/crest-ai/ask.mp4" type="video/mp4" />
+          </video>
+          <figcaption><strong>Ask in plain language.</strong> “I’m interested in the floods in St. Louis in 2025” brings up a summary of the June 2025 event and the 77 USGS gauges nearby; zoom in and click pins, or draw a box, to choose the ones to simulate.</figcaption>
+        </figure>
+        <figure class="clip">
+          <video muted loop playsinline preload="metadata" controls data-autoplay
+                 poster="../images/demos/crest-ai/run.jpg" aria-label="A finished simulation replaying over the St. Louis map with streamflow along the creek and the gauge hydrograph panel">
+            <source src="../videos/crest-ai/run.mp4" type="video/mp4" />
+          </video>
+          <figcaption><strong>Simulate and replay.</strong> Four gauges on the River Des Peres, May–August 2025: the CREST/EF5 run completes, the time slider replays the event, streamflow lights up along the creek, and each gauge’s hydrograph and skill scores fill the panel.</figcaption>
+        </figure>
+        <figure class="clip">
+          <video muted loop playsinline preload="metadata" controls data-autoplay
+                 poster="../images/demos/crest-ai/calibrate.jpg" aria-label="The assistant offering AI calibration for gauges that finished with a weak fit">
+            <source src="../videos/crest-ai/calibrate.mp4" type="video/mp4" />
+          </video>
+          <figcaption><strong>AI calibration.</strong> When a gauge finishes with a weak fit, the assistant reports the NSE and offers to calibrate the model parameters itself — or hands over for manual adjustment.</figcaption>
+        </figure>
+        <figure class="clip">
+          <video muted loop playsinline preload="metadata" controls data-autoplay
+                 poster="../images/demos/crest-ai/speedrun.jpg" aria-label="A speed run over the St. Louis basin with the chat explaining the boundary gauges and the smaller domain">
+            <source src="../videos/crest-ai/speedrun.mp4" type="video/mp4" />
+          </video>
+          <figcaption><strong>Speed run.</strong> The domain is cut at upstream USGS gauges and their observations are injected as boundary conditions, so the model simulates a quarter of the basin about four times faster.</figcaption>
+        </figure>
+        <figure class="clip">
+          <video muted loop playsinline preload="metadata" controls data-autoplay
+                 poster="../images/demos/crest-ai/inundation.jpg" aria-label="The 2-D inundation map with simulated water depth along the Youghiogheny River at Connellsville, Pennsylvania">
+            <source src="../videos/crest-ai/inundation.mp4" type="video/mp4" />
+          </video>
+          <figcaption><strong>2-D inundation.</strong> When the nowcast flags a gauge at flood level, CREST-iMAP v2 simulates the basin in two dimensions — here the simulated water depth along the Youghiogheny River at Connellsville, PA (August 2026), with the trigger gauge’s routed nowcast against USGS observations.</figcaption>
+        </figure>
+        <figure class="clip">
+          <video muted loop playsinline preload="metadata" controls data-autoplay
+                 poster="../images/demos/crest-ai/nowcast.jpg" aria-label="A nowcast hydrograph for the Frio River at Tilden, Texas, with forecast points for the next 6 and 12 hours">
+            <source src="../videos/crest-ai/nowcast.mp4" type="video/mp4" />
+          </video>
+          <figcaption><strong>Nowcast.</strong> No dates needed: the observed hydrograph at Frio River at Tilden, TX (July 2026) extends into the next 6 and 12 hours with the AI nowcast, and map colours flag gauges where trouble is predicted within six hours, refreshed hourly.</figcaption>
+        </figure>
+      </div>
+    </section>
+
+    <section class="section" id="live-demo" style="padding-top: 0;">
       <div class="embed-wrap">
         <iframe
           src="https://vincewin-crest-demo.hf.space"
@@ -88,6 +157,6 @@
     <p>© <span id="year"></span> Mengye Chen. Built for <a href="https://mcspace.work">mcspace.work</a>.</p>
   </footer>
 
-  <script src="../script.js?v=20260618"></script>
+  <script src="../script.js?v=20260917"></script>
 </body>
 </html>

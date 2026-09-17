@@ -16,7 +16,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Inter:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="styles.css?v=20260706e" />
+  <link rel="stylesheet" href="styles.css?v=20260917" />
 </head>
 <body>
   <header class="site-header">
@@ -32,11 +32,11 @@
       <div class="nav-dd">
         <button class="nav-dd-btn" aria-haspopup="true" aria-expanded="false">Demos ▾</button>
         <div class="nav-dd-menu">
+          <a href="demos/crest-ai.html">CREST AI Flood Dashboard</a>
           <a href="demos/hydrobasins-atlas.html">Hydrological Zones</a>
           <a href="atlas/">Solar + Wind Storage Atlas</a>
           <a href="hydro/">CONUS CREST v3.0 Parameter Downloader</a>
           <a href="demos/stem-splitter.html">AI Stem Splitter</a>
-          <a href="demos/crest-ai.html">CREST AI Flood Dashboard</a>
         </div>
       </div>
       <a href="#community">Community</a>
@@ -66,7 +66,8 @@
             flood prediction, remote sensing, climate risk, and AI-assisted environmental analysis.
           </p>
           <div class="hero-actions">
-            <a class="button primary" href="#projects">View Projects</a>
+            <a class="button primary" href="demos/crest-ai.html">Try CREST AI</a>
+            <a class="button secondary" href="#projects">View Projects</a>
             <a class="button secondary" href="#contact">Contact</a>
           </div>
           <div class="hero-tags" aria-label="Focus areas">
@@ -193,6 +194,28 @@
         <h2>Modeling, climate, and AI-enabled water systems</h2>
       </div>
       <div class="project-list">
+        <a class="project project-featured" href="demos/crest-ai.html">
+          <div class="project-figure">
+            <video class="project-video" autoplay muted loop playsinline preload="metadata" data-autoplay
+                   poster="images/demos/crest-ai/montage.jpg"
+                   aria-label="CREST AI in action: a St. Louis flash-flood simulation replaying over the map with live hydrographs, the 2-D inundation map on the Youghiogheny River at Connellsville, and a nowcast hydrograph for the Frio River at Tilden">
+              <source src="videos/crest-ai/montage.mp4" type="video/mp4" />
+            </video>
+          </div>
+          <div class="project-body">
+            <span class="project-kicker">Featured · Interactive Demo · AI for Hydrology</span>
+            <h3>CREST AI Flood Dashboard</h3>
+            <p>
+              Describe a flood in plain language — or pick USGS gauges straight from the map — and
+              watch the CREST/EF5 model simulate it live: 2-D streamflow animates over the map,
+              hydrographs stream in as the model runs, and the AI assistant explains the event and
+              can calibrate the model when the fit is poor. Nowcast mode flags where trouble is
+              predicted in the next six hours, and CREST-iMAP maps the flood in 2-D when a gauge
+              reaches flood level.
+            </p>
+            <span class="project-link">Open the flood dashboard · watch it in action</span>
+          </div>
+        </a>
         <a class="project" href="demos/hydrobasins-atlas.html">
           <div class="project-figure">
             <img src="images/demos/hydrobasins/L7_P_mm_yr.png" alt="Global map of mean annual precipitation by HydroBASINS watershed" loading="lazy" decoding="async" />
@@ -254,22 +277,6 @@
               generate for your goal (karaoke, remix, instrument practice).
             </p>
             <span class="project-link">Try the stem splitter</span>
-          </div>
-        </a>
-        <a class="project" href="demos/crest-ai.html">
-          <div class="project-figure">
-            <img src="images/figures/fig-crest-ai.svg" alt="A map with USGS gauge pins and a stream network feeding a live flood hydrograph with a 2-D streamflow color bar" loading="lazy" decoding="async" />
-          </div>
-          <div class="project-body">
-            <span class="project-kicker">Interactive Demo · AI for Hydrology</span>
-            <h3>CREST AI Flood Dashboard</h3>
-            <p>
-              Describe a flood in plain language — or pick USGS gauges straight from the map — and
-              watch the CREST/EF5 model simulate it live: 2-D streamflow animates over the map,
-              hydrographs stream in as the model runs, and the AI assistant explains the event and
-              can calibrate the model when the fit is poor.
-            </p>
-            <span class="project-link">Open the flood dashboard</span>
           </div>
         </a>
         <a class="project" href="https://doi.org/10.1175/JHM-D-20-0218.1" target="_blank" rel="noopener noreferrer">
@@ -503,6 +510,6 @@
     <p>© <span id="year"></span> Mengye Chen. Built for <a href="https://mcspace.work">mcspace.work</a>.</p>
   </footer>
 
-  <script src="script.js?v=20260706"></script>
+  <script src="script.js?v=20260917"></script>
 </body>
 </html>

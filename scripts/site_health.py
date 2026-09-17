@@ -5,6 +5,7 @@ Default run = plain HTTP checks, standard library only:
   * every page answers 200 and carries its <title>
   * every external script / stylesheet a page loads answers 200
   * the data files behind the interactive maps are served and parse
+  * the CREST AI video clips and poster frames are served
   * every basemap tile template used in this repo serves a real image tile
   * no basemap comes from a provider that needs an API key (CARTO started
     stamping "API KEY REQUIRED" on keyless tiles, which broke the maps once)
@@ -60,6 +61,18 @@ DATA = {
     "/atlas/data/meta.json": ("json", None),
     "/atlas/data/regions_index.json": ("json", None),
     "/atlas/data/regions.geojson": ("geojson", 100_000),
+}
+
+# path -> minimum size in bytes for the CREST AI clips and their poster frames
+MEDIA = {
+    "/videos/crest-ai/montage.mp4": 1_000_000,
+    "/videos/crest-ai/ask.mp4": 300_000,
+    "/videos/crest-ai/run.mp4": 300_000,
+    "/videos/crest-ai/calibrate.mp4": 300_000,
+    "/videos/crest-ai/speedrun.mp4": 300_000,
+    "/videos/crest-ai/inundation.mp4": 300_000,
+    "/videos/crest-ai/nowcast.mp4": 300_000,
+    "/images/demos/crest-ai/montage.jpg": 20_000,
 }
 
 # basemap hosts that only serve proper tiles with a key/token in the URL
@@ -172,6 +185,17 @@ def http_checks(rep: Report) -> None:
                 rep.add(ok, "data", f"{url} (HTTP {status}, {size:,} bytes, starts with {prefix[:12]!r})")
         except Exception as e:  # noqa: BLE001
             rep.add(False, "data", f"{url} ({e})")
+
+    for path, want in MEDIA.items():
+        url = SITE + path
+        try:
+            status, headers = head_or_get(url)
+            size = int(headers.get("Content-Length", "0") or 0)
+            ctype = headers.get("Content-Type", "")
+            ok = status == 200 and size >= want and (ctype.startswith("video/") or ctype.startswith("image/"))
+            rep.add(ok, "media", f"{url} (HTTP {status}, {ctype}, {size:,} bytes)")
+        except Exception as e:  # noqa: BLE001
+            rep.add(False, "media", f"{url} ({e})")
 
     for src, template in tile_templates():
         host = re.match(r"https?://([^/]+)", template).group(1).lower()
