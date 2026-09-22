@@ -32,7 +32,7 @@
     .embed-note { color: var(--muted); font-size: 0.92rem; margin-top: 14px; }
     @media (max-width: 640px) { .embed-wrap iframe { height: 1100px; } }
     /* clips */
-    .clips-section { padding-top: 10px; }
+    .clips-section { padding-top: 0; scroll-margin-top: 84px; }
     .clips-section h2 { margin: 0 0 8px; }
     .clips-intro { margin: 0 0 22px; max-width: 760px; }
     .clip-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 18px; }
@@ -80,7 +80,24 @@
       <div class="demo-meta">
         <a class="button primary" href="https://vincewin-crest-demo.hf.space" target="_blank" rel="noopener noreferrer">Open in full screen ↗</a>
         <a class="button" href="https://github.com/mchen15ouedu/CREST_AI" target="_blank" rel="noopener noreferrer">Source on GitHub</a>
+        <a class="button" href="#in-action">Watch it in action ↓</a>
       </div>
+    </section>
+
+    <section class="section" id="live-demo" style="padding-top: 0;">
+      <div class="embed-wrap">
+        <iframe
+          src="https://vincewin-crest-demo.hf.space"
+          title="CREST AI Flood Dashboard interactive demo"
+          allow="clipboard-write; fullscreen; geolocation"
+          loading="lazy"></iframe>
+      </div>
+      <p class="embed-note">
+        The demo may take a moment to wake if it has been idle. A simulation with warm-up typically
+        runs 2–4 minutes on the free hardware; repeat runs of the same basin are much faster thanks
+        to state and result caching. If the embed doesn't load,
+        <a href="https://vincewin-crest-demo.hf.space" target="_blank" rel="noopener noreferrer">open it in a new tab</a>.
+      </p>
     </section>
 
     <section class="section clips-section" id="in-action" aria-labelledby="clips-title">
@@ -88,7 +105,7 @@
       <h2 id="clips-title">Watch the dashboard work</h2>
       <p class="body-copy clips-intro">
         Short, silent clips from recorded sessions. They play while in view; use the controls to
-        pause, scrub or go full screen, or <a href="#live-demo">skip to the live demo</a>.
+        pause, scrub or go full screen.
       </p>
       <div class="clip-grid">
         <figure class="clip">
@@ -134,22 +151,6 @@
           <figcaption><strong>Nowcast.</strong> No dates needed: the observed hydrograph at Frio River at Tilden, TX (July 2026) extends into the next 6 and 12 hours with the AI nowcast, and map colours flag gauges where trouble is predicted within six hours, refreshed hourly.</figcaption>
         </figure>
       </div>
-    </section>
-
-    <section class="section" id="live-demo" style="padding-top: 0;">
-      <div class="embed-wrap">
-        <iframe
-          src="https://vincewin-crest-demo.hf.space"
-          title="CREST AI Flood Dashboard interactive demo"
-          allow="clipboard-write; fullscreen; geolocation"
-          loading="lazy"></iframe>
-      </div>
-      <p class="embed-note">
-        The demo may take a moment to wake if it has been idle. A simulation with warm-up typically
-        runs 2–4 minutes on the free hardware; repeat runs of the same basin are much faster thanks
-        to state and result caching. If the embed doesn't load,
-        <a href="https://vincewin-crest-demo.hf.space" target="_blank" rel="noopener noreferrer">open it in a new tab</a>.
-      </p>
     </section>
   </main>
 
