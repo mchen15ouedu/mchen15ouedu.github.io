@@ -761,6 +761,16 @@ h3 { margin-bottom: 10px; font-size: 1.25rem; letter-spacing: -0.01em; }
     justify-content: center;
   }
   .project-list .project:first-child h3 { font-size: clamp(1.6rem, 2.4vw, 2.1rem); }
+
+  /* A lone card in the last row spans it horizontally instead of leaving an empty cell */
+  .project-list .project:last-child:nth-child(even) { grid-column: 1 / -1; flex-direction: row; }
+  .project-list .project:last-child:nth-child(even) .project-figure {
+    width: 46%;
+    height: 240px;
+    border-bottom: 0;
+    border-right: 1px solid var(--line);
+  }
+  .project-list .project:last-child:nth-child(even) .project-body { width: 54%; justify-content: center; }
 }
 
 /* ---------- Responsive ---------- */
